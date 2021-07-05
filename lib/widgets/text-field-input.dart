@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:storage_cloud/pallete.dart';
+import 'package:storage_cloud/utilities/pallete.dart';
 
 class TextInputField extends StatelessWidget {
   const TextInputField(
@@ -41,8 +41,8 @@ class TextInputField extends StatelessWidget {
               ),
               hintText: hint,
               hintStyle: TextStyle(
-                  color: Colors.black38,
-                ),
+                color: Colors.black38,
+              ),
             ),
             style: kBodyText,
             keyboardType: inputType,

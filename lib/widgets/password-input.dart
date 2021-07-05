@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:storage_cloud/pallete.dart';
+import 'package:storage_cloud/utilities/pallete.dart';
+
 class Passwordinput extends StatelessWidget {
   const Passwordinput(
       {Key key,
@@ -40,8 +41,8 @@ class Passwordinput extends StatelessWidget {
               ),
               hintText: hint,
               hintStyle: TextStyle(
-                  color: Colors.black38,
-                ),
+                color: Colors.black38,
+              ),
             ),
             obscureText: true,
             style: kBodyText,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:storage_cloud/pallete.dart';
+import 'package:storage_cloud/utilities/pallete.dart';
 
 class RoundedButton extends StatelessWidget {
   const RoundedButton({
@@ -23,7 +23,7 @@ class RoundedButton extends StatelessWidget {
         onPressed: () {},
         child: Text(
           buttonName,
-          style: kBodyText.copyWith(fontWeight: FontWeight.bold,fontSize: 30),
+          style: kBodyText.copyWith(fontWeight: FontWeight.bold, fontSize: 30),
         ),
       ),
     );
