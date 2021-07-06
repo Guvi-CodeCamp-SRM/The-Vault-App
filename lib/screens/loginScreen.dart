@@ -150,7 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           textStyle: const TextStyle(fontSize: 13),
                         ),
                         onPressed: () {
-                          //TODO:fix this
                           showModalBottomSheet<void>(
                             context: context,
                             isScrollControlled: true,
@@ -183,9 +182,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               onPressed: () async {
-                                if (validate()) {
-                                  Navigator.pushNamed(context, '/homeScreen');
-                                }
+                                // if (validate()) {
+                                Navigator.pushNamed(context, '/HomeScreen');
+                                // }
                               },
                             ),
                           ),
