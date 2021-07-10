@@ -31,6 +31,7 @@ dependencies:
   google_fonts: ^1.1.1
   email_validator: '^1.0.6'
   fluttertoast: ^8.0.3
+  fab_circular_menu: ^1.0.0
   
 
 
