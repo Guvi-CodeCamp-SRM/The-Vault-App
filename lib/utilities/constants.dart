@@ -16,3 +16,5 @@ const TextStyle kBodyText =
 const kTextFieldStyle = TextStyle(color: Colors.white, fontSize: 18.0);
 const kHintTextStyle = TextStyle(color: Colors.white, fontSize: 18.0);
 const kTextFieldBorderRadius = BorderRadius.all(Radius.circular(18.0));
+
+const baseUrl = "";

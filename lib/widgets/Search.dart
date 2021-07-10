@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:storage_cloud/utilities/inputTile.dart';
 
 void main() => runApp(MyApp());
 
@@ -72,19 +73,28 @@ class SearchBar extends StatelessWidget {
 }
 
 class Search extends StatelessWidget {
+  String folderName;
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      autofocus: true,
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        hintText: 'Search folder...',
-        hintStyle: TextStyle(
-          fontSize: 25,
-          color: Colors.black.withOpacity(.3),
-        ),
-      ),
+    return InputTile(
+      callBack: (value) {
+        folderName = value;
+        print(folderName);
+        return folderName;
+      },
+      inputType: 'Search folder...',
     );
+    // TextField(
+    //   autofocus: true,
+    //   decoration: InputDecoration(
+    //     border: InputBorder.none,
+    //     hintText: 'Search folder...',
+    //     hintStyle: TextStyle(
+    //       fontSize: 25,
+    //       color: Colors.grey.shade100,
+    //     ),
+    // ),
+    // );
   }
 }
 
@@ -94,8 +104,8 @@ class AnimateExpansion extends StatefulWidget {
   final double axisAlignment;
   AnimateExpansion({
     this.animate = false,
-     this.axisAlignment,
-     this.child,
+    this.axisAlignment,
+    this.child,
   });
 
   @override
@@ -104,8 +114,8 @@ class AnimateExpansion extends StatefulWidget {
 
 class _AnimateExpansionState extends State<AnimateExpansion>
     with SingleTickerProviderStateMixin {
-   AnimationController _animationController;
-   Animation<double> _animation;
+  AnimationController _animationController;
+  Animation<double> _animation;
 
   void prepareAnimations() {
     _animationController = AnimationController(
@@ -115,7 +125,7 @@ class _AnimateExpansionState extends State<AnimateExpansion>
     _animation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInCubic,
-      reverseCurve: Curves.easeOutCubic,
+      reverseCurve: Curves.bounceOut,
     );
   }
 
@@ -152,6 +162,7 @@ class _AnimateExpansionState extends State<AnimateExpansion>
   @override
   void dispose() {
     _animationController.dispose();
+
     super.dispose();
   }
 }

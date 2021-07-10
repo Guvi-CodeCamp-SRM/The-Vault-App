@@ -4,6 +4,7 @@ import 'package:storage_cloud/screens/create-new-account.dart';
 import 'package:storage_cloud/screens/forgot-password.dart';
 import 'package:storage_cloud/screens/homeScreen.dart';
 import 'package:storage_cloud/screens/loginScreen.dart';
+import 'package:storage_cloud/widgets/Grid.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/HomeScreen': (context) => HomeScreen(),
         '/ForgotPassword': (context) => ForgotPassword(),
         '/CreateNewAccount': (context) => CreateNewAccount(),
+        '/Grids': (context) => Grid(),
       },
       debugShowCheckedModeBanner: false,
     );

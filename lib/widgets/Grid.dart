@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 
-class MyApp extends StatelessWidget {
+class Grid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = 'Grid List';
 
-    return MaterialApp(
-      title: title,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: GridView.count(
-          crossAxisCount: 2,
-          children: List.generate(10, (index) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 25),
+        child: GridView.count(
+          crossAxisCount: 3,
+          children: List.generate(21, (index) {
             return Center(
-              child: Text(
-                'FOLDER',
-                style: Theme.of(context).textTheme.headline5,
+              child: Card(
+                color: Colors.grey.shade200,
+                child: Column(
+                  children: [
+                    Icon(Icons.folder,
+                        size: ((MediaQuery.of(context).size.width) / 5)),
+                    Container(),
+                    Text(
+                      'FOLDER',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  ],
+                ),
               ),
             );
           }),
