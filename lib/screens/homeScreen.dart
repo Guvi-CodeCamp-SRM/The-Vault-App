@@ -26,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       floatingActionButton: FloatButton(fabKey: fabKey),
       appBar: AppBar(
+        elevation: isDrawerOpen ? 15 : 12,
+        shadowColor: isDrawerOpen ? Colors.white : Colors.black87,
         backgroundColor: kPrimaryColor,
         leading: isDrawerOpen
             ? GestureDetector(
