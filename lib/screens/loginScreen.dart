@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/forgot-password.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/inputTile.dart';
 import 'package:storage_cloud/utilities/pallete.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:storage_cloud/widgets/widgets.dart';
@@ -27,13 +27,27 @@ class _LoginScreenState extends State<LoginScreen> {
     if (formkey.currentState.validate()) {
       print("validated");
       return true;
-    } else {
+    }
+    //else if (!password.contains(new RegExp(regexPass))) {
+    //   print("not validated");
+    //   Fluttertoast.showToast(
+    //       msg:
+    //           "Password must contain atleast 8 characters, 1 Uppercase, 1 Lowercase, 1 Digit and 1 Special Character/Symbol",
+    //       toastLength: Toast.LENGTH_SHORT,
+    //       gravity: ToastGravity.BOTTOM,
+    //       timeInSecForIosWeb: 3,
+    //       backgroundColor: kContentColorDarkThemeColor,
+    //       textColor: kWhite,
+    //       fontSize: 16.0);
+    //   return false;
+    // }
+    else {
       print("not validated");
       Fluttertoast.showToast(
           msg: "Please check the required fields",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 5,
           backgroundColor: kContentColorDarkThemeColor,
           textColor: kWhite,
           fontSize: 16.0);
@@ -52,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
         return EdgeInsets.symmetric(
             horizontal: (MediaQuery.of(context).size.width) / 4);
       }
-      ;
     }
 
     ;
@@ -128,7 +141,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         setValidator: (value) {
                           if (value.isEmpty) {
                             return "Required";
-                          } else {
+                          }
+                          // else if (!password
+                          //     .contains(new RegExp(regexPass))) {
+                          //   return "Re-Enter";
+                          // }
+                          else {
                             return null;
                           }
                         },
@@ -183,8 +201,28 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               onPressed: () async {
                                 // if (validate()) {
+                                //   var msg;
+                                //   User user =
+                                //       User.a(email: email, password: password);
+                                //   var response = await user.logInUser();
+                                //   var ok = response["message"];
+                                //   print("this is well==================$ok");
+                                //   if (response["status"] == "error") {
+                                //     msg = response["message"];
+                                //     print("line 2 ======================$msg");
+                                //   } else if (response["status"] == "ok") {
+                                //     msg = response["message"];
+                                //     print("line 2 ======================$msg");
+
+                                //     Navigator.pushNamed(context, '/HomeScreen');
+                                //   }  else {
+                                //     msg = response["message"];
+                                //     var success = response["success"];
+                                //     print(
+                                //         "line 3=========================$msg");
+
+                                //   }}
                                 Navigator.pushNamed(context, '/HomeScreen');
-                                // }
                               },
                             ),
                           ),
