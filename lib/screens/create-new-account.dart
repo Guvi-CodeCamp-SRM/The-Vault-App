@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/inputTile.dart';
@@ -27,7 +29,24 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
 
   bool _isObscureTwo = true;
 
-  bool validate() {}
+  bool validate() {
+    if (formkey.currentState.validate()) {
+      print("validated");
+      return true;
+    } else {
+      print("not validated");
+      Fluttertoast.showToast(
+          msg: "Please check the required fields",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: kContentColorDarkThemeColor,
+          textColor: kWhite,
+          fontSize: 16.0);
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -199,8 +218,53 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                                   ),
                                   onPressed: () async {
                                     if (validate()) {
-                                      Navigator.of(context)
-                                          .popUntil(ModalRoute.withName("/"));
+                                      var msg;
+                                      User user = User.b(
+                                          name: name,
+                                          email: email,
+                                          password: password);
+                                      var response = await user.registerUser();
+                                      print("got $response");
+                                      if (response['success'] == 'false' ||
+                                          response['status'] == 'error') {
+                                        msg = response['message'];
+                                        print(msg);
+                                        Fluttertoast.showToast(
+                                            msg: "$msg",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 5,
+                                            backgroundColor:
+                                                kContentColorDarkThemeColor,
+                                            textColor: kWhite,
+                                            fontSize: 16.0);
+                                      } else if (response['status'] == 'ok') {
+                                        var msg = response['message'];
+                                        print(msg);
+                                        Fluttertoast.showToast(
+                                            msg: "$msg",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor:
+                                                kContentColorDarkThemeColor,
+                                            textColor: kWhite,
+                                            fontSize: 16.0);
+                                        Navigator.of(context)
+                                            .popUntil(ModalRoute.withName("/"));
+                                      } else {
+                                        msg = response['message'];
+                                        var success = response['success'];
+                                        Fluttertoast.showToast(
+                                            msg: "$msg",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor:
+                                                kContentColorDarkThemeColor,
+                                            textColor: kWhite,
+                                            fontSize: 16.0);
+                                      }
                                     }
                                   },
                                 ),

@@ -18,3 +18,5 @@ const kHintTextStyle = TextStyle(color: Colors.white, fontSize: 18.0);
 const kTextFieldBorderRadius = BorderRadius.all(Radius.circular(18.0));
 
 const baseUrl = "https://gccstorage.herokuapp.com/";
+const regexPass =
+    r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
