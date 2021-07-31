@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/drawer.dart';
@@ -5,10 +6,11 @@ import 'package:storage_cloud/widgets/FabButton.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:storage_cloud/widgets/Grid.dart';
 import 'package:storage_cloud/widgets/Search.dart';
+import 'dart:convert' as convert;
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
-
+  HomeScreen({Key key, @required cookie}) : super(key: key);
+  var cookie;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -20,11 +22,30 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _searching = false;
 
   final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
+  dynamic fileCaller() async {
+    Response<ResponseBody> rs = await Dio().post<ResponseBody>(
+        "${baseUrl}files/viewall",
+        options: Options(responseType: ResponseType.stream),
+        data: null // set responseType to `stream`
+        );
+    print(rs.data.stream);
+    print("${baseUrl}files/viewall");
+    var response = convert.jsonDecode(rs.statusMessage);
+    print(response);
+    return response;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    fileCaller();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatButton(fabKey: fabKey),
+      floatingActionButton: FloatButton(fabKey: fabKey, cookie: widget.cookie),
       appBar: AppBar(
         elevation: isDrawerOpen ? 15 : 12,
         shadowColor: isDrawerOpen ? Colors.white : Colors.black87,

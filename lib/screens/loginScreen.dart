@@ -1,13 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/forgot-password.dart';
+import 'package:storage_cloud/screens/homeScreen.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
-import 'package:storage_cloud/utilities/inputTile.dart';
-import 'package:storage_cloud/utilities/pallete.dart';
+import 'package:storage_cloud/widgets/inputTile.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:storage_cloud/widgets/widgets.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -68,7 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
 
-    ;
     EdgeInsetsGeometry outputTileP = inputTilePadding();
     return Background(
       child: Scaffold(
@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         inputType: "Enter Email",
                         callBack: (value) {
                           email = value;
-                          print(email);
+                          print(password);
                         },
                       ),
                       SizedBox(height: 20.0),
@@ -136,7 +136,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         inputType: "Enter Password",
                         callBack: (value) {
                           password = value;
-                          print(password);
                         },
                         setValidator: (value) {
                           if (value.isEmpty) {
@@ -200,29 +199,42 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               onPressed: () async {
-                                // if (validate()) {
-                                //   var msg;
-                                //   User user =
-                                //       User.a(email: email, password: password);
-                                //   var response = await user.logInUser();
-                                //   var ok = response["message"];
-                                //   print("this is well==================$ok");
-                                //   if (response["status"] == "error") {
-                                //     msg = response["message"];
-                                //     print("line 2 ======================$msg");
-                                //   } else if (response["status"] == "ok") {
-                                //     msg = response["message"];
-                                //     print("line 2 ======================$msg");
+                                if (validate()) {
+                                  var msg;
+                                  User user =
+                                      User.a(email: email, password: password);
+                                  var listResponse = await user.logInUser();
+                                  var response = listResponse[1];
+                                  var logInCookie = listResponse[0].toString();
+                                  log(listResponse[0].toString(),
+                                      name: "loginc");
 
-                                //     Navigator.pushNamed(context, '/HomeScreen');
-                                //   }  else {
-                                //     msg = response["message"];
-                                //     var success = response["success"];
-                                //     print(
-                                //         "line 3=========================$msg");
+                                  print(
+                                      '------------------------$response -------------------------------------');
+                                  var ok = response["message"];
+                                  print("this is well==================$ok");
+                                  if (response["status"] == "error") {
+                                    msg = response["message"];
+                                    print("line 2 ======================$msg");
+                                  } else if (response["status"] == "ok") {
+                                    msg = response["message"];
+                                    print("line 2 ======================$msg");
 
-                                //   }}
-                                Navigator.pushNamed(context, '/HomeScreen');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            HomeScreen(cookie: logInCookie),
+                                      ),
+                                    );
+                                  } else {
+                                    msg = response["message"];
+                                    var success = response["success"];
+                                    print(
+                                        "line 3=========================$msg\nsuccess is $success");
+                                  }
+                                }
+                                // Navigator.pushNamed(context, '/HomeScreen');
                               },
                             ),
                           ),

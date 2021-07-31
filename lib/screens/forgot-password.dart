@@ -1,22 +1,14 @@
-import 'dart:ui';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
-import 'package:storage_cloud/utilities/inputTile.dart';
-import 'package:storage_cloud/utilities/pallete.dart';
-import 'package:storage_cloud/widgets/background-image.dart';
-import 'package:storage_cloud/widgets/rounded-button.dart';
-import 'package:storage_cloud/widgets/text-field-input.dart';
+import 'package:storage_cloud/widgets/inputTile.dart';
 
 class ForgotPassword extends StatelessWidget {
   String email;
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     EdgeInsetsGeometry inputTilePadding() {
       if (isPortrait) {
@@ -26,10 +18,8 @@ class ForgotPassword extends StatelessWidget {
         return EdgeInsets.symmetric(
             horizontal: (MediaQuery.of(context).size.width) / 4);
       }
-      ;
     }
 
-    ;
     EdgeInsetsGeometry outputTileP = inputTilePadding();
     return Container(
       color: Colors.transparent,

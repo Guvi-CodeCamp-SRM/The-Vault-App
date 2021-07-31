@@ -5,9 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
-import 'package:storage_cloud/utilities/inputTile.dart';
-import 'package:storage_cloud/utilities/pallete.dart';
-import 'package:storage_cloud/widgets/widgets.dart';
+import 'package:storage_cloud/widgets/inputTile.dart';
 
 class CreateNewAccount extends StatefulWidget {
   @override
@@ -59,10 +57,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
         return EdgeInsets.symmetric(
             horizontal: (MediaQuery.of(context).size.width) / 4);
       }
-      ;
     }
 
-    ;
     EdgeInsetsGeometry outputTileP = inputTilePadding();
     return Background(
       child: Scaffold(
@@ -254,7 +250,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                                             .popUntil(ModalRoute.withName("/"));
                                       } else {
                                         msg = response['message'];
-                                        var success = response['success'];
+
                                         Fluttertoast.showToast(
                                             msg: "$msg",
                                             toastLength: Toast.LENGTH_SHORT,

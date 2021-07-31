@@ -21,7 +21,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
-                    radius: 35,
+                    radius: 38,
+                    backgroundColor: kPrimaryColor,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Image(

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 class Grid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final title = 'Grid List';
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 25),
