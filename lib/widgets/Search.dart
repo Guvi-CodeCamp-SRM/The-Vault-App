@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:storage_cloud/utilities/inputTile.dart';
+import 'package:storage_cloud/widgets/inputTile.dart';
 
 void main() => runApp(MyApp());
 
