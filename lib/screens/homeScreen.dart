@@ -11,6 +11,7 @@ import 'dart:convert' as convert;
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, @required cookie}) : super(key: key);
   var cookie;
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -38,12 +39,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    fileCaller();
+    // fileCaller();
     super.initState();
+    // print(widget.cookie);
   }
 
   @override
   Widget build(BuildContext context) {
+    print("xcvbnifnaidwk");
+    print(widget.cookie);
+    print("xcvbnifnaidwk");
     return Scaffold(
       floatingActionButton: FloatButton(fabKey: fabKey, cookie: widget.cookie),
       appBar: AppBar(

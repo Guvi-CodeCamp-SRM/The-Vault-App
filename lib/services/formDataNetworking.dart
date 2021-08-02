@@ -5,8 +5,8 @@ import 'dart:convert' as convert;
 
 class ApiProvider {
   Dio _dio;
-  String aToken;
-  ApiProvider.a({this.aToken});
+  String cookie;
+  ApiProvider.a({this.cookie});
   final BaseOptions options = new BaseOptions(
     baseUrl: "$baseUrl",
   );
@@ -20,7 +20,7 @@ class ApiProvider {
         .add(InterceptorsWrapper(onRequest: (Options options) async {
       _dio.interceptors.requestLock.lock();
 
-      options.headers["cookie"] = aToken;
+      options.headers["cookie"] = cookie;
 
       _dio.interceptors.requestLock.unlock();
       return options;
@@ -28,8 +28,10 @@ class ApiProvider {
   }
 
   Future sendFile(FormData formData) async {
-    var jsonResponse = await _dio.post("${baseUrl}files/upload",
-        options: Options(contentType: 'multipart/form-data'), data: formData);
+    var jsonResponse = await _dio.post("files/upload",
+        options: Options(
+            contentType: 'multipart/form-data', headers: {"cookie": "$cookie"}),
+        data: formData);
     print("File Upload response:$jsonResponse");
     print(jsonResponse.statusCode);
     if (jsonResponse.statusCode == 200 || jsonResponse.statusCode == 400) {
@@ -37,10 +39,12 @@ class ApiProvider {
 
       print(response.data.toString());
       return response;
+    } else {
+      print("something is wrong");
     }
   }
 
   Future recieveFile() async {
-    var response = await _dio.post("${baseUrl}files/viewall", data: null);
+    var response = await _dio.post("files/viewall", data: null);
   }
 }

@@ -1,20 +1,19 @@
-// import 'dart:html' hide File;
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:storage_cloud/services/formDataNetworking.dart';
 import 'package:storage_cloud/utilities/constants.dart';
-// import "package:path/path.dart";
-// import 'package:http/http.dart' as http;
+import 'package:cookie_jar/cookie_jar.dart';
 import "package:dio/dio.dart";
 
 class FloatButton extends StatelessWidget {
+  FloatButton({
+    Key key,
+    @required this.fabKey,
+    @required this.cookie,
+  }) : super(key: key);
   var cookie;
-  FloatButton({Key key, @required this.fabKey, @required this.cookie})
-      : super(key: key);
-
   final GlobalKey<FabCircularMenuState> fabKey;
 
   get convert => null;
@@ -65,45 +64,62 @@ class FloatButton extends StatelessWidget {
                         result.files.first.path,
                         filename: result.files.first.name)
                   });
-                  ApiProvider xyz = ApiProvider.a(aToken: cookie);
-                  var response = await xyz.sendFile(formData);
-                  print('$response');
+                  var jsonResponse = await Dio().post("${baseUrl}files/upload",
+                      options: Options(
+                          headers: {"cookie": "$cookie"},
+                          contentType: 'multipart/form-data'),
+                      data: formData);
+                  print("File Upload response:$jsonResponse");
+                  print(jsonResponse.statusCode);
+                  if (jsonResponse.statusCode == 200 ||
+                      jsonResponse.statusCode == 400) {
+                    var response = convert.jsonDecode(jsonResponse.data);
 
-                  var msg;
-                  var ok = response["message"];
-                  print("this is well==================$ok");
-                  if (response["status"] == "error") {
-                    msg = response["message"];
-                    print("line 2 ======================$msg");
-                  } else if (response["status"] == "ok") {
-                    msg = response["message"];
-                    print("line 2 ======================$msg");
+                    print('$response');
+
+                    var msg;
+                    var ok = response["message"];
+                    print("this is well==================$ok");
+                    if (response["status"] == "error") {
+                      msg = response["message"];
+                      print("line 2 ======================$msg");
+                    } else if (response["status"] == "ok") {
+                      msg = response["message"];
+                      print("line 2 ======================$msg");
 //TODO:File Uploaded
-                    Fluttertoast.showToast(
-                        msg: "File has been uploaded succesfully",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 5,
-                        backgroundColor: kContentColorDarkThemeColor,
-                        textColor: kWhite,
-                        fontSize: 16.0);
-                  } else {
-                    msg = response["message"];
+                      Fluttertoast.showToast(
+                          msg: "File has been uploaded succesfully",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 5,
+                          backgroundColor: kContentColorDarkThemeColor,
+                          textColor: kWhite,
+                          fontSize: 16.0);
+                    } else {
+                      msg = response["message"];
 
-                    Fluttertoast.showToast(
-                        msg: "ptani kya line hai ye",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 5,
-                        backgroundColor: kContentColorDarkThemeColor,
-                        textColor: kWhite,
-                        fontSize: 16.0);
+                      Fluttertoast.showToast(
+                          msg: "ptani kya line hai ye",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 5,
+                          backgroundColor: kContentColorDarkThemeColor,
+                          textColor: kWhite,
+                          fontSize: 16.0);
+                    }
                   }
+                  return {
+                    'success': 'no',
+                    'message':
+                        'Request failed with status: ${jsonResponse.statusCode}.'
+                  };
                 } catch (e) {
                   final errorMessage = DioExceptions.fromDioError(e).toString();
                   print(errorMessage);
                 }
               } else {
+                // Dio dio = new Dio();
+                // dio.cookieJar = new CookieJar();
                 // User canceled the picker
 
               }

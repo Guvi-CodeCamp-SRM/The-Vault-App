@@ -25,10 +25,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     backgroundColor: kPrimaryColor,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                            'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg'),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/Profile');
+                        },
+                        child: Image(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                              'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg'),
+                        ),
                       ),
                     ),
                   ),

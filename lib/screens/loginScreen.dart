@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:storage_cloud/models/user.dart';
-import 'package:storage_cloud/screens/forgot-password.dart';
+import 'package:storage_cloud/utilities/forgot-password.dart';
 import 'package:storage_cloud/screens/homeScreen.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String email;
 
   String password;
-
+  static var logInCookie;
   bool _isObscure = true;
 
   bool validate() {
@@ -205,12 +205,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       User.a(email: email, password: password);
                                   var listResponse = await user.logInUser();
                                   var response = listResponse[1];
-                                  var logInCookie = listResponse[0].toString();
-                                  log(listResponse[0].toString(),
-                                      name: "loginc");
 
-                                  print(
-                                      '------------------------$response -------------------------------------');
+                                  logInCookie = listResponse[0];
+
                                   var ok = response["message"];
                                   print("this is well==================$ok");
                                   if (response["status"] == "error") {
@@ -219,7 +216,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   } else if (response["status"] == "ok") {
                                     msg = response["message"];
                                     print("line 2 ======================$msg");
-
+                                    log(logInCookie, name: "loginc");
+                                    print("login =================");
+                                    print(logInCookie);
+                                    print("login =================");
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute<void>(
