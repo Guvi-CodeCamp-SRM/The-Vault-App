@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:storage_cloud/screens/create-new-account.dart';
-import 'package:storage_cloud/screens/forgot-password.dart';
+import 'package:storage_cloud/screens/profileUpdate.dart';
+import 'package:storage_cloud/utilities/forgot-password.dart';
 import 'package:storage_cloud/screens/homeScreen.dart';
 import 'package:storage_cloud/screens/loginScreen.dart';
+import 'package:storage_cloud/screens/profile.dart';
 import 'package:storage_cloud/widgets/Grid.dart';
 
 void main() {
@@ -24,7 +26,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LoginScreen(),
-        '/HomeScreen': (context) => HomeScreen(),
+        '/Profile': (context) => Profile(),
+        '/ProfileUpdate': (context) => ProfileUpdate(),
         '/ForgotPassword': (context) => ForgotPassword(),
         '/CreateNewAccount': (context) => CreateNewAccount(),
         '/Grids': (context) => Grid(),

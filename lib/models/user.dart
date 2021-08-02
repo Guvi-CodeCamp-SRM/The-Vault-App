@@ -9,7 +9,7 @@ class User {
 
   User.a({this.email, this.password});
   User.b({this.email, this.password, this.name});
-  User.c({this.file});
+  User.c({this.password});
 
   Future<dynamic> registerUser() async {
     var response = await ApiBaseHelper().post("register",
@@ -18,9 +18,23 @@ class User {
     return response;
   }
 
-  Future<dynamic> logInUser() async {
+  Future<dynamic> deleteUser() async {
+    var response = await ApiBaseHelper()
+        .post("delete?_method=DELETE", '{"password":"$password"}');
+
+    return response;
+  }
+
+  Future<dynamic> updateUser() async {
     var response = await ApiBaseHelper()
         .post('login', '{"email":"$email","password":"$password"}');
+
+    return response;
+  }
+
+  Future<dynamic> logInUser() async {
+    var response = await ApiBaseHelper()
+        .postLogin('login', '{"email":"$email","password":"$password"}');
 
     return response;
   }
