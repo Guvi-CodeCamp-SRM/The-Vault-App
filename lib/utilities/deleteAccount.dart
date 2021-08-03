@@ -7,6 +7,8 @@ import 'package:storage_cloud/widgets/inputTile.dart';
 
 class DeleteAccount extends StatelessWidget {
   String password;
+  String cookie;
+  DeleteAccount({@required this.cookie});
   bool validate() {
     if (formkey.currentState.validate()) {
       print("validated");
@@ -97,7 +99,7 @@ class DeleteAccount extends StatelessWidget {
                             ),
                             onPressed: () async {
                               if (validate()) {
-                                User user = await User.c(password: password);
+                                User user = User.c(password: password);
                                 var response = await user.deleteUser();
                                 var msg;
                                 print("got $response");

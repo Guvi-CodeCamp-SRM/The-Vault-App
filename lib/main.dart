@@ -26,11 +26,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LoginScreen(),
-        '/Profile': (context) => Profile(),
-        '/ProfileUpdate': (context) => ProfileUpdate(),
         '/ForgotPassword': (context) => ForgotPassword(),
         '/CreateNewAccount': (context) => CreateNewAccount(),
-        '/Grids': (context) => Grid(),
       },
       debugShowCheckedModeBanner: false,
     );

@@ -5,10 +5,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
-import 'package:storage_cloud/utilities/deleteAccount.dart';
 import 'package:storage_cloud/widgets/inputTile.dart';
 
 class ProfileUpdate extends StatefulWidget {
+  String cookie;
+
+  ProfileUpdate({@required this.cookie});
   @override
   State<ProfileUpdate> createState() => _ProfileUpdate();
 }
@@ -183,9 +185,10 @@ class _ProfileUpdate extends State<ProfileUpdate> {
                                     onPressed: () async {
                                       if (validate()) {
                                         var msg;
-                                        User user = User.b(
+                                        User user = User.e(
                                           name: name,
                                           email: email,
+                                          cookie: widget.cookie,
                                         );
                                         var response = await user.updateUser();
                                         print("got $response");

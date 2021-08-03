@@ -9,9 +9,8 @@ import 'package:storage_cloud/widgets/Search.dart';
 import 'dart:convert' as convert;
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, @required cookie}) : super(key: key);
   var cookie;
-
+  HomeScreen({@required this.cookie});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -23,32 +22,17 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _searching = false;
 
   final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
-  dynamic fileCaller() async {
-    Response<ResponseBody> rs = await Dio().post<ResponseBody>(
-        "${baseUrl}files/viewall",
-        options: Options(responseType: ResponseType.stream),
-        data: null // set responseType to `stream`
-        );
-    print(rs.data.stream);
-    print("${baseUrl}files/viewall");
-    var response = convert.jsonDecode(rs.statusMessage);
-    print(response);
-    return response;
-  }
 
   @override
   void initState() {
     // TODO: implement initState
-    // fileCaller();
+
     super.initState();
     // print(widget.cookie);
   }
 
   @override
   Widget build(BuildContext context) {
-    print("xcvbnifnaidwk");
-    print(widget.cookie);
-    print("xcvbnifnaidwk");
     return Scaffold(
       floatingActionButton: FloatButton(fabKey: fabKey, cookie: widget.cookie),
       appBar: AppBar(
@@ -103,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Stack(children: [
-        DrawerScreen(),
+        DrawerScreen(cookie: widget.cookie),
         AnimatedContainer(
             transform: Matrix4.translationValues(xOffset, yOffset, 0)
               ..scale(isDrawerOpen ? 0.85 : 1.00)
@@ -115,7 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? BorderRadius.circular(40)
                   : BorderRadius.circular(0),
             ),
-            child: Grid()),
+            child: Grid(
+              cookie: widget.cookie,
+            )),
       ]),
     );
   }

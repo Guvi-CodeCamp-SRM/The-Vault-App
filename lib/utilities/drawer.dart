@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 class DrawerScreen extends StatefulWidget {
+  var cookie;
+  DrawerScreen({@required this.cookie});
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
