@@ -75,7 +75,7 @@ class ApiBaseHelper {
     }
   }
 
-  Future<dynamic> post(String url, String body) async {
+  Future<dynamic> post(String url, String body, cookie) async {
     print('Api Post, url $baseUrl$url');
     try {
       print(body);
@@ -83,6 +83,7 @@ class ApiBaseHelper {
           await http.post(Uri.parse('$baseUrl$url'), body: body, headers: {
         "content-type": "application/json",
         "accept": "application/json",
+        "set-cookie": "$cookie"
       });
       print(response.statusCode);
       print(response);
