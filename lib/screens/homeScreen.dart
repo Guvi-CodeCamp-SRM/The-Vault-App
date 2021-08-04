@@ -24,14 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
 
   @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-    // print(widget.cookie);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatButton(fabKey: fabKey, cookie: widget.cookie),
@@ -41,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: kPrimaryColor,
         leading: isDrawerOpen
             ? GestureDetector(
-                // child: Icon(Icons.arrow_back_ios),
                 child: Icon(Icons.close),
                 onTap: () {
                   setState(() {
@@ -106,84 +97,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-// SingleChildScrollView(
-//             child: Container(
-//               color: kPrimaryColor,
-//               child: Column(
-//                 children: <Widget>[
-//                   SizedBox(
-//                     height: 50,
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.symmetric(
-//                         horizontal: 20, vertical: 17),
-//                     child: Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: <Widget>[
-//                         isDrawerOpen
-//                             ? GestureDetector(
-//                                 child: Icon(Icons.arrow_back_ios),
-//                                 onTap: () {
-//                                   setState(() {
-//                                     xOffset = 0;
-//                                     yOffset = 0;
-//                                     isDrawerOpen = false;
-//                                   });
-//                                 },
-//                               )
-//                             : GestureDetector(
-//                                 child: Icon(Icons.menu),
-//                                 onTap: () {
-//                                   setState(() {
-//                                     xOffset = 290;
-//                                     yOffset = 80;
-//                                     isDrawerOpen = true;
-//                                   });
-//                                 },
-//                               ),
-//                         Text(
-//                           'Storage',
-//                           style: TextStyle(
-//                               fontSize: 20,
-//                               color: Colors.green,
-//                               decoration: TextDecoration.none),
-//                         ),
-//                         Container(),
-//                       ],
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 40,
-//                   ),
-//                   Container(
-//                     height: double.maxFinite,
-//                     child: Column(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           height: 100,
-//                         ),
-//                         TextButton(
-//                           child: Text("iiiinij"),
-//                           onPressed: () {
-//                             Navigator.pushNamed(context, '/Grids');
-//                           },
-//                         ),
-//                         SizedBox(
-//                           height: 100,
-//                         ),
-//                       ],
-//                     ),
-//                   )
-//                 ],
-//               ),
-//             ),
-//           ),
