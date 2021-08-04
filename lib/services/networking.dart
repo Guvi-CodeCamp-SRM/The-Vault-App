@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:storage_cloud/utilities/constants.dart';
-import "package:dio/dio.dart";
 
 class ApiBaseHelper {
   bool status;

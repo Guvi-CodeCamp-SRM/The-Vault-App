@@ -1,7 +1,7 @@
 class FileData {
-  String date;
-  String fileName;
-  String type;
-  int length;
-  FileData({this.date, this.fileName, this.type, this.length});
+  var length;
+  var date;
+  var fileName;
+  var type;
+  FileData(this.length, this.date, this.fileName, this.type);
 }
