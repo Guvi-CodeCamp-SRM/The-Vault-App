@@ -82,7 +82,7 @@ class ApiBaseHelper {
           await http.post(Uri.parse('$baseUrl$url'), body: body, headers: {
         "content-type": "application/json",
         "accept": "application/json",
-        "set-cookie": "$cookie"
+        "cookie": "$cookie"
       });
       print(response.statusCode);
       print(response);

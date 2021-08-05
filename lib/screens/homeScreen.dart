@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/drawer.dart';
@@ -6,11 +5,10 @@ import 'package:storage_cloud/widgets/FabButton.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:storage_cloud/widgets/Grid.dart';
 import 'package:storage_cloud/widgets/Search.dart';
-import 'dart:convert' as convert;
 
 class HomeScreen extends StatefulWidget {
   var cookie;
-  HomeScreen({@required this.cookie});
+  HomeScreen({this.cookie});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }

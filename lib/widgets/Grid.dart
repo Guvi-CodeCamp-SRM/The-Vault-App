@@ -11,7 +11,14 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
-  var j;
+  List<FileData> files = [];
+  var x;
+  Future<void> refresh() {
+    setState(() {
+      x = fileCaller();
+    });
+    return null;
+  }
 
   Future<List<FileData>> fileCaller() async {
     Response response = await Dio().post("${baseUrl}files/viewall",
@@ -21,11 +28,7 @@ class _GridState extends State<Grid> {
         data: {});
 
     var finalResponse = response.data;
-    print(finalResponse[0]["length"].runtimeType);
-    print(finalResponse[0]["uploadDate"].runtimeType);
-    print(finalResponse[0]["filename"].runtimeType);
-    print(finalResponse[0]["contentType"].runtimeType);
-    List<FileData> files = [];
+
     for (var f in finalResponse) {
       FileData file = FileData(
           f["length"], f["uploadData"], f["filename"], f["contenType"]);
@@ -33,11 +36,6 @@ class _GridState extends State<Grid> {
     }
 
     return files;
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
