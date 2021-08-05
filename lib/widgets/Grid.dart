@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:storage_cloud/models/fileData.dart';
@@ -11,7 +13,6 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
-  List<FileData> files = [];
   var x;
   Future<void> refresh() {
     setState(() {
@@ -28,13 +29,14 @@ class _GridState extends State<Grid> {
         data: {});
 
     var finalResponse = response.data;
-
+    log(finalResponse.toString(), name: "z");
+    List<FileData> files = [];
     for (var f in finalResponse) {
       FileData file = FileData(
           f["length"], f["uploadData"], f["filename"], f["contenType"]);
       files.add(file);
     }
-
+    log(files.toString(), name: "list");
     return files;
   }
 

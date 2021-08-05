@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/profile.dart';
 import 'constants.dart';
@@ -146,20 +145,44 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ),
               ],
             ),
-            Row(
-              children: <Widget>[
-                Icon(
-                  Icons.cancel,
-                  color: Colors.white.withOpacity(0.5),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Log out',
-                  style: TextStyle(color: Colors.white.withOpacity(0.5)),
-                )
-              ],
+            GestureDetector(
+              onTap: () async {
+                var msg;
+                User user = User.d(widget.cookie);
+                var response = await user.logoutProfile();
+                print(response);
+                var ok = response["message"];
+                print("this is well==================$ok");
+                if (response["status"] == "error") {
+                  msg = response["message"];
+                  print("line 2 ======================$msg");
+                } else if (response["status"] == "ok") {
+                  msg = response["message"];
+
+                  Navigator.pop(context);
+                } else {
+                  msg = response["message"];
+                  var success = response["success"];
+                  print(
+                      "line 3=========================$msg\nsuccess is $success");
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.cancel,
+                    color: Colors.white.withOpacity(0.5),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Log out',
+                    style: TextStyle(color: Colors.white.withOpacity(0.5)),
+                  )
+                ],
+              ),
             )
           ],
         ),
