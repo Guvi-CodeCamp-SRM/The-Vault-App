@@ -34,14 +34,14 @@ class User {
   }
 
   Future<dynamic> updateUser() async {
-    var response = await ApiBaseHelper()
-        .post('login', '{"email":"$email","password":"$password"}', cookie);
+    var response = await ApiBaseHelper().post('profile/update?_method=PUT',
+        '{"name":"$name","email":"$email"}', cookie);
 
     return response;
   }
 
   Future<dynamic> userProfile() async {
-    var response = await ApiBaseHelper().post('profile/view', null, cookie);
+    var response = await ApiBaseHelper().post('profile/view', "{}", cookie);
 
     return response;
   }

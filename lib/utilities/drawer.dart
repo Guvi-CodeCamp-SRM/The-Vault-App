@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:storage_cloud/models/user.dart';
+import 'package:storage_cloud/screens/profile.dart';
 import 'constants.dart';
 
 class DrawerScreen extends StatefulWidget {
@@ -9,6 +12,14 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
+  Future<dynamic> userData() async {
+    User user = User.d(widget.cookie);
+    var response = await user.userProfile();
+    print(response);
+    return response;
+  }
+
+  var name, email;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,8 +39,35 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/Profile');
+                        onTap: () async {
+                          var msg;
+                          User user = User.d(widget.cookie);
+                          var response = await user.userProfile();
+
+                          var ok = response["message"];
+                          print("this is well==================$ok");
+                          if (response["status"] == "error") {
+                            msg = response["message"];
+                            print("line 2 ======================$msg");
+                          } else if (response["status"] == "ok") {
+                            msg = response["message"];
+                            name = response["data"]["name"];
+                            email = response["data"]["email"];
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) => Profile(
+                                    cookie: widget.cookie,
+                                    name: name,
+                                    email: email),
+                              ),
+                            );
+                          } else {
+                            msg = response["message"];
+                            var success = response["success"];
+                            print(
+                                "line 3=========================$msg\nsuccess is $success");
+                          }
                         },
                         child: Image(
                           fit: BoxFit.cover,

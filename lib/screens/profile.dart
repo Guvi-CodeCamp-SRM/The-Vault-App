@@ -10,8 +10,12 @@ import 'package:storage_cloud/utilities/deleteAccount.dart';
 import 'package:storage_cloud/widgets/inputTile.dart';
 
 class Profile extends StatefulWidget {
-  var cookie;
-  Profile({@required this.cookie});
+  var cookie, name, email;
+  Profile({
+    @required this.cookie,
+    @required this.name,
+    @required this.email,
+  });
 
   @override
   State<Profile> createState() => _Profile();
@@ -25,29 +29,12 @@ class _Profile extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    var profileResponse = profileData();
-  }
-
-  Future<dynamic> profileData() async {
-    User user = User.d(widget.cookie);
-    var response = await user.userProfile();
-    print(response);
-    return response;
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    EdgeInsetsGeometry inputTilePadding() {
-      if (isPortrait) {
-        return EdgeInsets.symmetric(horizontal: (size.width) / 12);
-      } else {
-        return EdgeInsets.symmetric(horizontal: (size.width) / 4);
-      }
-    }
 
-    EdgeInsetsGeometry outputTileP = inputTilePadding();
     return Background(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -117,7 +104,7 @@ class _Profile extends State<Profile> {
                                   color: kPrimaryColor,
                                 ),
                                 Text(
-                                  'Aksh Sood',
+                                  '${widget.name}',
                                   style: TextStyle(
                                     color: kPrimaryColor,
                                   ),
@@ -150,7 +137,7 @@ class _Profile extends State<Profile> {
                                   width: 0,
                                 ),
                                 Text(
-                                  'akshrocksong@gmail.com',
+                                  '${widget.email}',
                                   style: TextStyle(
                                     color: kPrimaryColor,
                                   ),
