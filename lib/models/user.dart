@@ -46,6 +46,13 @@ class User {
     return response;
   }
 
+  Future<dynamic> logoutProfile() async {
+    var response =
+        await ApiBaseHelper().post('logout?_method=DELETE', "{}", cookie);
+
+    return response;
+  }
+
   Future<dynamic> logInUser() async {
     var response = await ApiBaseHelper()
         .postLogin('login', '{"email":"$email","password":"$password"}');
