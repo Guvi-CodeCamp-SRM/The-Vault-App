@@ -3,12 +3,15 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:storage_cloud/models/user.dart';
+import 'package:storage_cloud/screens/profile.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
-import 'package:storage_cloud/utilities/deleteAccount.dart';
 import 'package:storage_cloud/widgets/inputTile.dart';
 
 class ProfileUpdate extends StatefulWidget {
+  String cookie;
+
+  ProfileUpdate({@required this.cookie});
   @override
   State<ProfileUpdate> createState() => _ProfileUpdate();
 }
@@ -43,7 +46,6 @@ class _ProfileUpdate extends State<ProfileUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     EdgeInsetsGeometry inputTilePadding() {
       if (isPortrait) {
@@ -104,19 +106,7 @@ class _ProfileUpdate extends State<ProfileUpdate> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 120, bottom: 80),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ),
+                    SizedBox(height: 90),
                     Form(
                       key: formkey,
                       child: Padding(
@@ -161,8 +151,7 @@ class _ProfileUpdate extends State<ProfileUpdate> {
                                 }
                               },
                             ),
-                            SizedBox(height: 20.0),
-                            SizedBox(height: 20.0),
+                            SizedBox(height: 40.0),
                             Row(
                               children: [
                                 Expanded(
@@ -183,9 +172,10 @@ class _ProfileUpdate extends State<ProfileUpdate> {
                                     onPressed: () async {
                                       if (validate()) {
                                         var msg;
-                                        User user = User.b(
+                                        User user = User.e(
                                           name: name,
                                           email: email,
+                                          cookie: widget.cookie,
                                         );
                                         var response = await user.updateUser();
                                         print("got $response");
@@ -202,7 +192,8 @@ class _ProfileUpdate extends State<ProfileUpdate> {
                                                   kContentColorDarkThemeColor,
                                               textColor: kWhite,
                                               fontSize: 16.0);
-                                        } else if (response['status'] == 'ok') {
+                                        } else if (response['success'] ==
+                                            'true') {
                                           var msg = response['message'];
                                           print(msg);
                                           Fluttertoast.showToast(
@@ -214,7 +205,6 @@ class _ProfileUpdate extends State<ProfileUpdate> {
                                                   kContentColorDarkThemeColor,
                                               textColor: kWhite,
                                               fontSize: 16.0);
-                                          Navigator.of(context).pop();
                                         } else {
                                           msg = response['message'];
                                           // ignore: unused_local_variable
@@ -228,6 +218,39 @@ class _ProfileUpdate extends State<ProfileUpdate> {
                                                   kContentColorDarkThemeColor,
                                               textColor: kWhite,
                                               fontSize: 16.0);
+
+                                          User user = User.d(widget.cookie);
+                                          var res = await user.userProfile();
+
+                                          var ok = res["message"];
+                                          print(
+                                              "this is well==================$ok");
+                                          if (res["status"] == "error") {
+                                            msg = res["message"];
+                                            print(
+                                                "line 2 ======================$msg");
+                                          } else if (res["status"] == "ok") {
+                                            msg = res["message"];
+                                            name = res["data"]["name"];
+                                            email = res["data"]["email"];
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        Profile(
+                                                            cookie:
+                                                                widget.cookie,
+                                                            name: name,
+                                                            email: email),
+                                              ),
+                                            );
+                                          } else {
+                                            msg = response["message"];
+                                            var success = response["success"];
+                                            print(
+                                                "line 3=========================$msg\nsuccess is $success");
+                                          }
                                         }
                                       }
                                     },

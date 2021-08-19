@@ -1,67 +1,36 @@
 import 'dart:ui';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:storage_cloud/models/user.dart';
+import 'package:storage_cloud/screens/profileUpdate.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/deleteAccount.dart';
-import 'package:storage_cloud/widgets/inputTile.dart';
 
 class Profile extends StatefulWidget {
+  var cookie, name, email;
+  Profile({
+    @required this.cookie,
+    @required this.name,
+    @required this.email,
+  });
+
   @override
   State<Profile> createState() => _Profile();
 }
 
 class _Profile extends State<Profile> {
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
   String name;
 
   String email;
 
-  String password;
-
-  String passwordTwo;
-
-  bool _isObscure = true;
-
-  // ignore: unused_field
-  bool _isObscureTwo = true;
-
-  bool validate() {
-    if (formkey.currentState.validate()) {
-      print("validated");
-      return true;
-    } else {
-      print("not validated");
-      Fluttertoast.showToast(
-          msg: "Please check the required fields",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: kContentColorDarkThemeColor,
-          textColor: kWhite,
-          fontSize: 16.0);
-      return false;
-    }
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    EdgeInsetsGeometry inputTilePadding() {
-      if (isPortrait) {
-        return EdgeInsets.symmetric(
-            horizontal: (MediaQuery.of(context).size.width) / 12);
-      } else {
-        return EdgeInsets.symmetric(
-            horizontal: (MediaQuery.of(context).size.width) / 4);
-      }
-    }
 
-    EdgeInsetsGeometry outputTileP = inputTilePadding();
     return Background(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -110,8 +79,7 @@ class _Profile extends State<Profile> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height / 5 - 10),
+                    SizedBox(height: size.height / 5 - 10),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -132,7 +100,7 @@ class _Profile extends State<Profile> {
                                   color: kPrimaryColor,
                                 ),
                                 Text(
-                                  'Name',
+                                  '${widget.name}',
                                   style: TextStyle(
                                     color: kPrimaryColor,
                                   ),
@@ -165,7 +133,7 @@ class _Profile extends State<Profile> {
                                   width: 0,
                                 ),
                                 Text(
-                                  'sood_aksh_2001@outlook.com',
+                                  '${widget.email}',
                                   style: TextStyle(
                                     color: kPrimaryColor,
                                   ),
@@ -193,8 +161,14 @@ class _Profile extends State<Profile> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, "/ProfileUpdate");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            ProfileUpdate(
+                                                cookie: widget.cookie),
+                                      ),
+                                    );
                                   }),
                             ),
                             Expanded(
@@ -205,7 +179,9 @@ class _Profile extends State<Profile> {
                                     isScrollControlled: true,
                                     builder: (BuildContext context) {
                                       return SingleChildScrollView(
-                                          child: DeleteAccount());
+                                          child: DeleteAccount(
+                                        cookie: widget.cookie,
+                                      ));
                                     },
                                   );
                                 },

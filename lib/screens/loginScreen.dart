@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       InputTile(
-                        startIcon: Icon(Icons.call, color: kPrimaryColor),
+                        startIcon: Icon(Icons.email, color: kPrimaryColor),
                         keyboard: TextInputType.emailAddress,
                         setValidator: (value) {
                           if (value.isEmpty) {
@@ -204,37 +204,53 @@ class _LoginScreenState extends State<LoginScreen> {
                                   User user =
                                       User.a(email: email, password: password);
                                   var listResponse = await user.logInUser();
-                                  var response = listResponse[1];
+                                  log(listResponse.toString(), name: "list");
+                                  if (listResponse.length != 1) {
+                                    var response = listResponse[1];
 
-                                  logInCookie = listResponse[0];
+                                    logInCookie = listResponse[0];
 
-                                  var ok = response["message"];
-                                  print("this is well==================$ok");
-                                  if (response["status"] == "error") {
-                                    msg = response["message"];
-                                    print("line 2 ======================$msg");
-                                  } else if (response["status"] == "ok") {
-                                    msg = response["message"];
-                                    print("line 2 ======================$msg");
-                                    log(logInCookie, name: "loginc");
-                                    print("login =================");
-                                    print(logInCookie);
-                                    print("login =================");
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            HomeScreen(cookie: logInCookie),
-                                      ),
-                                    );
+                                    var ok = response["message"];
+                                    print("this is well==================$ok");
+                                    if (response["status"] == "error") {
+                                      msg = response["message"];
+                                      print(
+                                          "line 2 ======================$msg");
+                                    } else if (response["status"] == "ok") {
+                                      msg = response["message"];
+                                      print(
+                                          "line 2 ======================$msg");
+                                      log(logInCookie, name: "loginc");
+                                      print("login =================");
+                                      print(logInCookie);
+                                      print("login =================");
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              HomeScreen(cookie: logInCookie,email:email),
+                                        ),
+                                      );
+                                    } else {
+                                      msg = response["message"];
+                                      var success = response["success"];
+                                      print(
+                                          "line 3=========================$msg\nsuccess is $success");
+                                    }
                                   } else {
-                                    msg = response["message"];
-                                    var success = response["success"];
-                                    print(
-                                        "line 3=========================$msg\nsuccess is $success");
+                                    var response = listResponse[0];
+                                    var msg = response["message"];
+                                    Fluttertoast.showToast(
+                                        msg: msg,
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 5,
+                                        backgroundColor:
+                                            kContentColorDarkThemeColor,
+                                        textColor: kWhite,
+                                        fontSize: 16.0);
                                   }
                                 }
-                                // Navigator.pushNamed(context, '/HomeScreen');
                               },
                             ),
                           ),

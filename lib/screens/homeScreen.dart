@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/drawer.dart';
@@ -6,12 +5,10 @@ import 'package:storage_cloud/widgets/FabButton.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:storage_cloud/widgets/Grid.dart';
 import 'package:storage_cloud/widgets/Search.dart';
-import 'dart:convert' as convert;
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, @required cookie}) : super(key: key);
-  var cookie;
-
+  var cookie,email;
+  HomeScreen({this.cookie,this.email});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -23,32 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _searching = false;
 
   final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
-  dynamic fileCaller() async {
-    Response<ResponseBody> rs = await Dio().post<ResponseBody>(
-        "${baseUrl}files/viewall",
-        options: Options(responseType: ResponseType.stream),
-        data: null // set responseType to `stream`
-        );
-    print(rs.data.stream);
-    print("${baseUrl}files/viewall");
-    var response = convert.jsonDecode(rs.statusMessage);
-    print(response);
-    return response;
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    // fileCaller();
-    super.initState();
-    // print(widget.cookie);
-  }
 
   @override
   Widget build(BuildContext context) {
-    print("xcvbnifnaidwk");
-    print(widget.cookie);
-    print("xcvbnifnaidwk");
     return Scaffold(
       floatingActionButton: FloatButton(fabKey: fabKey, cookie: widget.cookie),
       appBar: AppBar(
@@ -57,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: kPrimaryColor,
         leading: isDrawerOpen
             ? GestureDetector(
-                // child: Icon(Icons.arrow_back_ios),
                 child: Icon(Icons.close),
                 onTap: () {
                   setState(() {
@@ -103,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Stack(children: [
-        DrawerScreen(),
+        DrawerScreen(cookie: widget.cookie,email:widget.email),
         AnimatedContainer(
             transform: Matrix4.translationValues(xOffset, yOffset, 0)
               ..scale(isDrawerOpen ? 0.85 : 1.00)
@@ -115,89 +88,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? BorderRadius.circular(40)
                   : BorderRadius.circular(0),
             ),
-            child: Grid()),
+            child: Grid(
+              cookie: widget.cookie,
+            )),
       ]),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-// SingleChildScrollView(
-//             child: Container(
-//               color: kPrimaryColor,
-//               child: Column(
-//                 children: <Widget>[
-//                   SizedBox(
-//                     height: 50,
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.symmetric(
-//                         horizontal: 20, vertical: 17),
-//                     child: Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: <Widget>[
-//                         isDrawerOpen
-//                             ? GestureDetector(
-//                                 child: Icon(Icons.arrow_back_ios),
-//                                 onTap: () {
-//                                   setState(() {
-//                                     xOffset = 0;
-//                                     yOffset = 0;
-//                                     isDrawerOpen = false;
-//                                   });
-//                                 },
-//                               )
-//                             : GestureDetector(
-//                                 child: Icon(Icons.menu),
-//                                 onTap: () {
-//                                   setState(() {
-//                                     xOffset = 290;
-//                                     yOffset = 80;
-//                                     isDrawerOpen = true;
-//                                   });
-//                                 },
-//                               ),
-//                         Text(
-//                           'Storage',
-//                           style: TextStyle(
-//                               fontSize: 20,
-//                               color: Colors.green,
-//                               decoration: TextDecoration.none),
-//                         ),
-//                         Container(),
-//                       ],
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 40,
-//                   ),
-//                   Container(
-//                     height: double.maxFinite,
-//                     child: Column(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           height: 100,
-//                         ),
-//                         TextButton(
-//                           child: Text("iiiinij"),
-//                           onPressed: () {
-//                             Navigator.pushNamed(context, '/Grids');
-//                           },
-//                         ),
-//                         SizedBox(
-//                           height: 100,
-//                         ),
-//                       ],
-//                     ),
-//                   )
-//                 ],
-//               ),
-//             ),
-//           ),

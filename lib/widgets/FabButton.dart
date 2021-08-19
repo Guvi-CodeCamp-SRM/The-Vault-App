@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:storage_cloud/utilities/constants.dart';
-import 'package:cookie_jar/cookie_jar.dart';
 import "package:dio/dio.dart";
 
 class FloatButton extends StatelessWidget {
@@ -49,7 +48,9 @@ class FloatButton extends StatelessWidget {
             fillColor: Colors.deepPurple,
             onPressed: () async {
               FilePickerResult result = await FilePicker.platform.pickFiles();
+              var msg;
               if (result != null) {
+                // ignore: unused_local_variable
                 File file = File(result.files.single.path);
                 print(result.files.first.path);
                 print("--------------------");
@@ -71,13 +72,13 @@ class FloatButton extends StatelessWidget {
                       data: formData);
                   print("File Upload response:$jsonResponse");
                   print(jsonResponse.statusCode);
+                  print(jsonResponse.data);
                   if (jsonResponse.statusCode == 200 ||
                       jsonResponse.statusCode == 400) {
-                    var response = convert.jsonDecode(jsonResponse.data);
-
+                    Map<String, dynamic> response = jsonResponse.data;
+                    print(response["status"].toString());
                     print('$response');
 
-                    var msg;
                     var ok = response["message"];
                     print("this is well==================$ok");
                     if (response["status"] == "error") {
@@ -86,7 +87,6 @@ class FloatButton extends StatelessWidget {
                     } else if (response["status"] == "ok") {
                       msg = response["message"];
                       print("line 2 ======================$msg");
-//TODO:File Uploaded
                       Fluttertoast.showToast(
                           msg: "File has been uploaded succesfully",
                           toastLength: Toast.LENGTH_SHORT,
@@ -116,12 +116,18 @@ class FloatButton extends StatelessWidget {
                 } catch (e) {
                   final errorMessage = DioExceptions.fromDioError(e).toString();
                   print(errorMessage);
+                  print(e);
                 }
               } else {
-                // Dio dio = new Dio();
-                // dio.cookieJar = new CookieJar();
                 // User canceled the picker
-
+                Fluttertoast.showToast(
+                    msg: "$msg",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 7,
+                    backgroundColor: kContentColorDarkThemeColor,
+                    textColor: kWhite,
+                    fontSize: 16.0);
               }
             },
             shape: CircleBorder(),
@@ -180,7 +186,7 @@ class DioExceptions implements Exception {
       case 500:
         return 'Internal server error';
       default:
-        return 'Oops something went wrong';
+        return 'Oops something went wrong ,trying logging in again';
     }
   }
 

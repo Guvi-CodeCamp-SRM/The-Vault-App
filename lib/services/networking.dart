@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:storage_cloud/utilities/constants.dart';
-import "package:dio/dio.dart";
 
 class ApiBaseHelper {
   bool status;
@@ -75,7 +74,7 @@ class ApiBaseHelper {
     }
   }
 
-  Future<dynamic> post(String url, String body) async {
+  Future<dynamic> post(String url, String body, cookie) async {
     print('Api Post, url $baseUrl$url');
     try {
       print(body);
@@ -83,6 +82,7 @@ class ApiBaseHelper {
           await http.post(Uri.parse('$baseUrl$url'), body: body, headers: {
         "content-type": "application/json",
         "accept": "application/json",
+        "cookie": "$cookie"
       });
       print(response.statusCode);
       print(response);
