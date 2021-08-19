@@ -6,9 +6,10 @@ import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:storage_cloud/widgets/Grid.dart';
 import 'package:storage_cloud/widgets/Search.dart';
 
+// ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
-  var cookie;
-  HomeScreen({this.cookie});
+  var cookie,email;
+  HomeScreen({this.cookie,this.email});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -76,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Stack(children: [
-        DrawerScreen(cookie: widget.cookie),
+        DrawerScreen(cookie: widget.cookie,email:widget.email),
         AnimatedContainer(
             transform: Matrix4.translationValues(xOffset, yOffset, 0)
               ..scale(isDrawerOpen ? 0.85 : 1.00)

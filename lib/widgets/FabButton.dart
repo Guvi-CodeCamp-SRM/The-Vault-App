@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import "package:dio/dio.dart";
 
+// ignore: must_be_immutable
 class FloatButton extends StatelessWidget {
   FloatButton({
     Key key,
@@ -50,6 +51,7 @@ class FloatButton extends StatelessWidget {
               FilePickerResult result = await FilePicker.platform.pickFiles();
               var msg;
               if (result != null) {
+                // ignore: unused_local_variable
                 File file = File(result.files.single.path);
                 print(result.files.first.path);
                 print("--------------------");

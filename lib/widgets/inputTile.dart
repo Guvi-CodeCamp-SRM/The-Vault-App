@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 
 //created by aksh
+// ignore: must_be_immutable
 class InputTile extends StatelessWidget {
   InputTile(
       {this.isObscure = false,

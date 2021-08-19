@@ -8,6 +8,7 @@ import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/widgets/inputTile.dart';
 
+// ignore: must_be_immutable
 class ProfileUpdate extends StatefulWidget {
   String cookie;
 

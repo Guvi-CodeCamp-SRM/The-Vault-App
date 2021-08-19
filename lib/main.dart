@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:google_fonts/google_fonts.dart';
-import 'package:storage_cloud/screens/create-new-account.dart';
-import 'package:storage_cloud/screens/profileUpdate.dart';
-import 'package:storage_cloud/utilities/forgot-password.dart';
-import 'package:storage_cloud/screens/homeScreen.dart';
-import 'package:storage_cloud/screens/loginScreen.dart';
-import 'package:storage_cloud/screens/profile.dart';
-import 'package:storage_cloud/widgets/Grid.dart';
+import 'screens/create-new-account.dart';
+import 'screens/homeScreen.dart';
+import 'screens/loginScreen.dart';
+import 'utilities/forgot-password.dart';
 
 void main() {
   runApp(MyApp());

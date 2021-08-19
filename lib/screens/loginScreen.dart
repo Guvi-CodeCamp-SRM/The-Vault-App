@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       InputTile(
-                        startIcon: Icon(Icons.call, color: kPrimaryColor),
+                        startIcon: Icon(Icons.email, color: kPrimaryColor),
                         keyboard: TextInputType.emailAddress,
                         setValidator: (value) {
                           if (value.isEmpty) {
@@ -228,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         context,
                                         MaterialPageRoute<void>(
                                           builder: (BuildContext context) =>
-                                              HomeScreen(cookie: logInCookie),
+                                              HomeScreen(cookie: logInCookie,email:email),
                                         ),
                                       );
                                     } else {
