@@ -5,6 +5,7 @@ import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/widgets/inputTile.dart';
 
+// ignore: must_be_immutable
 class DeleteAccount extends StatelessWidget {
   String password;
   String cookie;

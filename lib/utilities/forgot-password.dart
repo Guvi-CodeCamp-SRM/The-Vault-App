@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/widgets/inputTile.dart';
 
+// ignore: must_be_immutable
 class ForgotPassword extends StatelessWidget {
   String email;
   GlobalKey<FormState> formkey = GlobalKey<FormState>();

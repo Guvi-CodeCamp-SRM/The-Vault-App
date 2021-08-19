@@ -3,9 +3,10 @@ import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/profile.dart';
 import 'constants.dart';
 
+// ignore: must_be_immutable
 class DrawerScreen extends StatefulWidget {
-  var cookie;
-  DrawerScreen({@required this.cookie});
+  var cookie,email;
+  DrawerScreen({@required this.cookie,this.email});
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
@@ -80,7 +81,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     width: 10,
                   ),
                   Text(
-                    'Username',
+                    '${widget.email}',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 22,

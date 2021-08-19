@@ -1,14 +1,11 @@
 import 'dart:ui';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/profileUpdate.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/deleteAccount.dart';
-import 'package:storage_cloud/widgets/inputTile.dart';
 
+// ignore: must_be_immutable
 class Profile extends StatefulWidget {
   var cookie, name, email;
   Profile({
