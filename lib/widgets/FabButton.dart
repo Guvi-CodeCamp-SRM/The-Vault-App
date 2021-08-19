@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import "package:dio/dio.dart";
 
+// ignore: must_be_immutable
 class FloatButton extends StatelessWidget {
   FloatButton({
     Key key,

@@ -5,6 +5,7 @@ import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/deleteAccount.dart';
 
+// ignore: must_be_immutable
 class Profile extends StatefulWidget {
   var cookie, name, email;
   Profile({

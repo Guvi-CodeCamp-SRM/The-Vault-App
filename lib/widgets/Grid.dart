@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
@@ -64,7 +65,6 @@ class _GridState extends State<Grid> {
                         index: index,
                         foldername: snapshot.data[index].fileName.substring(12),
                       );
-                      // );
                     });
               }
             },
@@ -73,8 +73,6 @@ class _GridState extends State<Grid> {
   }
 }
 
-//aryamanvirus08@gmail.com
-//Aryaman@07
 class Folder extends StatefulWidget {
   final int index;
   final String foldername;
@@ -142,9 +140,7 @@ class _FolderState extends State<Folder> {
               ],
             ),
             InkWell(
-              onTap: () {
-
-              },
+              onTap: () {},
               child: Icon(Icons.folder,
                   size: ((MediaQuery.of(context).size.width) / 3.5)),
             ),

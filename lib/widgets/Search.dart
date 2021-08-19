@@ -72,6 +72,7 @@ class SearchBar extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class Search extends StatelessWidget {
   String folderName;
   @override
