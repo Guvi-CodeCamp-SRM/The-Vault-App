@@ -47,7 +47,7 @@ class _GridState extends State<Grid> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-          padding: const EdgeInsets.only(top: 25),
+          padding: const EdgeInsets.only(top: 15),
           child: FutureBuilder(
             future: fileCaller(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -84,7 +84,7 @@ class Folder extends StatefulWidget {
 }
 
 class _FolderState extends State<Folder> {
-  Color _iconColor = Colors.grey[350];
+  Color _iconColor = Colors.grey[400];
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -104,16 +104,16 @@ class _FolderState extends State<Folder> {
                   ),
                   onPressed: () {
                     setState(() {
-                      if (_iconColor == Colors.grey[350]) {
+                      if (_iconColor == Colors.grey[400]) {
                         _iconColor = Colors.red;
                       } else {
-                        _iconColor = Colors.grey[350];
+                        _iconColor = Colors.grey[400];
                       }
                     });
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(101, 0, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(92.3, 0, 0, 0),
                   child: PopupMenuButton(
                     itemBuilder: (context) => [
                       PopupMenuItem(
