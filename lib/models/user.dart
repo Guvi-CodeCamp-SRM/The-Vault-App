@@ -5,7 +5,7 @@ class User {
   String password;
   String name;
   String cpassword;
-  String file;
+  String fileName;
   String cookie;
   User.a({this.email, this.password});
   User.b({
@@ -16,6 +16,7 @@ class User {
   User.e({this.email, this.password, this.name, this.cookie});
   User.c({this.password, this.cookie});
   User.d(this.cookie);
+  User.f({this.fileName, this.cookie});
 
   Future<dynamic> registerUser() async {
     var response = await ApiBaseHelper().post(
@@ -49,6 +50,13 @@ class User {
   Future<dynamic> logoutProfile() async {
     var response =
         await ApiBaseHelper().post('logout?_method=DELETE', "{}", cookie);
+
+    return response;
+  }
+
+  Future<dynamic> fileView() async {
+    var response = await ApiBaseHelper()
+        .post('files/view/file', '{"filename":"$fileName"}', cookie);
 
     return response;
   }
