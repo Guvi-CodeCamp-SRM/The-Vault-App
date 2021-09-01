@@ -5,8 +5,8 @@ import 'constants.dart';
 
 // ignore: must_be_immutable
 class DrawerScreen extends StatefulWidget {
-  var cookie,email;
-  DrawerScreen({@required this.cookie,this.email});
+  var cookie, email;
+  DrawerScreen({@required this.cookie, this.email});
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
@@ -20,6 +20,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
   }
 
   var name, email;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,7 +33,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
       child: Padding(
         padding: EdgeInsets.only(left: 30, bottom: 70),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
@@ -81,7 +87,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     width: 10,
                   ),
                   Text(
-                    '${widget.email}',
+                    '${widget.email.toString().split("@")[0]}',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 22,
@@ -90,61 +96,64 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ],
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  '20GB of 50Gb used',
-                  style: TextStyle(
-                      fontSize: 17, color: Colors.white.withOpacity(0.5)),
-                ),
-                SizedBox(height: 20),
-                NewRow(
-                  text: 'My Drive',
-                  icon: Icons.home_outlined,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                NewRow(
-                  text: 'Encrypted',
-                  icon: Icons.folder_open_rounded,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                NewRow(
-                  text: 'Recent',
-                  icon: Icons.book_outlined,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                NewRow(
-                  text: 'Favorites',
-                  icon: Icons.favorite_border,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                NewRow(text: 'Shared', icon: Icons.chat_bubble_outline_rounded),
-                SizedBox(
-                  height: 20,
-                ),
-                NewRow(
-                  text: 'Settings',
-                  icon: Icons.settings_outlined,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                NewRow(
-                  function: null,
-                  text: 'Trash',
-                  icon: Icons.delete_outline,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    '20GB of 50Gb used',
+                    style: TextStyle(
+                        fontSize: 17, color: Colors.white.withOpacity(0.5)),
+                  ),
+                  SizedBox(height: 30),
+                  NewRow(
+                    text: 'My Drive',
+                    icon: Icons.home_outlined,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  // NewRow(
+                  //   text: 'Encrypted',
+                  //   icon: Icons.folder_open_rounded,
+                  // ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
+                  // NewRow(
+                  //   text: 'Recent',
+                  //   icon: Icons.book_outlined,
+                  // ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
+                  NewRow(
+                    text: 'Favorites',
+                    icon: Icons.favorite_border,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  // NewRow(text: 'Shared', icon: Icons.chat_bubble_outline_rounded),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
+                  // NewRow(
+                  //   text: 'Settings',
+                  //   icon: Icons.settings_outlined,
+                  // ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
+                  // NewRow(
+                  //   function: null,
+                  //   text: 'Trash',
+                  //   icon: Icons.delete_outline,
+                  // ),
+                ],
+              ),
             ),
             GestureDetector(
               onTap: () async {
