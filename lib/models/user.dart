@@ -61,6 +61,20 @@ class User {
     return response;
   }
 
+  Future<dynamic> fileDelete() async {
+    var response = await ApiBaseHelper().post(
+        'files/delete/file?_method=DELETE', '{"filename":"$fileName"}', cookie);
+
+    return response;
+  }
+
+  Future<dynamic> favToggle() async {
+    var response = await ApiBaseHelper()
+        .post('profile/fav', '{"action":"set","filename":"$fileName"}', cookie);
+
+    return response;
+  }
+
   Future<dynamic> logInUser() async {
     var response = await ApiBaseHelper()
         .postLogin('login', '{"email":"$email","password":"$password"}');
