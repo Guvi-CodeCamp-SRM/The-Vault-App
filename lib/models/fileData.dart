@@ -3,5 +3,6 @@ class FileData {
   var date;
   var fileName;
   var type;
-  FileData(this.length, this.date, this.fileName, this.type);
+  bool fav;
+  FileData(this.length, this.date, this.fileName, this.type, this.fav);
 }

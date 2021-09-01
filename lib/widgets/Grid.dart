@@ -36,8 +36,8 @@ class _GridState extends State<Grid> {
     log(finalResponse.toString(), name: "z");
     List<FileData> files = [];
     for (var f in finalResponse) {
-      FileData file = FileData(
-          f["length"], f["uploadData"], f["filename"], f["contenType"]);
+      FileData file = FileData(f["length"], f["uploadData"], f["filename"],
+          f["contenType"], f["fav"]);
       files.add(file);
     }
     log(files.toString(), name: "list");
@@ -48,7 +48,7 @@ class _GridState extends State<Grid> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-          padding: const EdgeInsets.only(top: 25),
+          padding: const EdgeInsets.only(top: 15),
           child: FutureBuilder(
             future: fileCaller(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -63,10 +63,10 @@ class _GridState extends State<Grid> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Folder(
-                        index: index,
-                        folderName: snapshot.data[index].fileName,
-                        cookie: widget.cookie,
-                      );
+                          index: index,
+                          folderName: snapshot.data[index].fileName,
+                          cookie: widget.cookie,
+                          fav: snapshot.data[index].fav);
                     });
               }
             },
@@ -79,8 +79,9 @@ class Folder extends StatefulWidget {
   final int index;
   final String folderName;
   final String cookie;
+  final bool fav;
 
-  const Folder({Key key, this.index, this.folderName, this.cookie})
+  const Folder({Key key, this.index, this.folderName, this.cookie, this.fav})
       : super(key: key);
 
   @override
@@ -88,7 +89,8 @@ class Folder extends StatefulWidget {
 }
 
 class _FolderState extends State<Folder> {
-  Color _iconColor = Colors.grey[350];
+  Color _iconColor;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -108,10 +110,11 @@ class _FolderState extends State<Folder> {
                   ),
                   onPressed: () {
                     setState(() {
-                      if (_iconColor == Colors.grey[350]) {
+                      if (widget.fav) {
+                        //TODO: add fav api
                         _iconColor = Colors.red;
                       } else {
-                        _iconColor = Colors.grey[350];
+                        _iconColor = Colors.grey[400];
                       }
                     });
                   },
@@ -120,10 +123,13 @@ class _FolderState extends State<Folder> {
                   itemBuilder: (context) => [
                     PopupMenuItem(
                       value: 1,
-                      child: Text(
-                        "Download",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w400),
+                      child: InkWell(
+                        onTap: () async {},
+                        child: Text(
+                          "Download",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.w400),
+                        ),
                       ),
                     ),
                     PopupMenuItem(
@@ -136,10 +142,13 @@ class _FolderState extends State<Folder> {
                     ),
                     PopupMenuItem(
                       value: 3,
-                      child: Text(
-                        "Delete",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w400),
+                      child: InkWell(
+                        onTap: () async {},
+                        child: Text(
+                          "Delete",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.w400),
+                        ),
                       ),
                     ),
                   ],

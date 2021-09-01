@@ -34,6 +34,7 @@ dependencies:
   fab_circular_menu: ^1.0.0
   file_picker: ^3.0.3
   dio: ^3.0.9
+  mime: ^1.0.0
   
 
 

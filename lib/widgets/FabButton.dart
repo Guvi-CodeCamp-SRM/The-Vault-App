@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:mime/mime.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import "package:dio/dio.dart";
+import 'package:http_parser/http_parser.dart';
 
 // ignore: must_be_immutable
 class FloatButton extends StatelessWidget {
@@ -50,26 +52,25 @@ class FloatButton extends StatelessWidget {
             onPressed: () async {
               FilePickerResult result = await FilePicker.platform.pickFiles();
               var msg;
+              String type;
               if (result != null) {
                 // ignore: unused_local_variable
                 File file = File(result.files.single.path);
-                print(result.files.first.path);
-                print("--------------------");
-                String fileName = result.files.first.path;
-                print(result.files.first.bytes);
-                print("--------------------");
-                print(fileName);
+
+                type = lookupMimeType(result.files.first.path).toString();
 
                 try {
                   FormData formData = new FormData.fromMap({
                     "file": await MultipartFile.fromFile(
                         result.files.first.path,
+                        contentType:
+                            MediaType(type.split("/")[0], type.split("/")[1]),
                         filename: result.files.first.name)
                   });
                   var jsonResponse = await Dio().post("${baseUrl}files/upload",
-                      options: Options(
-                          headers: {"cookie": "$cookie"},
-                          contentType: 'multipart/form-data'),
+                      options: Options(headers: {
+                        "cookie": "$cookie",
+                      }, contentType: 'multipart/form-data'),
                       data: formData);
                   print("File Upload response:$jsonResponse");
                   print(jsonResponse.statusCode);
@@ -187,7 +188,7 @@ class DioExceptions implements Exception {
       case 500:
         return 'Internal server error';
       default:
-        return 'Oops something went wrong ,trying logging in again';
+        return 'Oops something went wrong ,trying logging in again \n $error';
     }
   }
 
