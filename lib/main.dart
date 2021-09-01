@@ -5,12 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'screens/create-new-account.dart';
 import 'screens/homeScreen.dart';
 import 'screens/loginScreen.dart';
-
 import 'utilities/forgot-password.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => runApp(MyApp()));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

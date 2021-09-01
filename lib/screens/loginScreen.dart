@@ -228,7 +228,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         context,
                                         MaterialPageRoute<void>(
                                           builder: (BuildContext context) =>
-                                              HomeScreen(cookie: logInCookie,email:email),
+                                              HomeScreen(
+                                                  cookie: logInCookie,
+                                                  email: email),
                                         ),
                                       );
                                     } else {

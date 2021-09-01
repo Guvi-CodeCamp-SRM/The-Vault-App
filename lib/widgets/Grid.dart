@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:storage_cloud/models/fileData.dart';
+import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 
 // ignore: must_be_immutable
@@ -35,8 +36,8 @@ class _GridState extends State<Grid> {
     log(finalResponse.toString(), name: "z");
     List<FileData> files = [];
     for (var f in finalResponse) {
-      FileData file = FileData(
-          f["length"], f["uploadData"], f["filename"], f["contenType"]);
+      FileData file = FileData(f["length"], f["uploadData"], f["filename"],
+          f["contenType"], f["fav"]);
       files.add(file);
     }
     log(files.toString(), name: "list");
@@ -62,9 +63,10 @@ class _GridState extends State<Grid> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Folder(
-                        index: index,
-                        foldername: snapshot.data[index].fileName.substring(12),
-                      );
+                          index: index,
+                          folderName: snapshot.data[index].fileName,
+                          cookie: widget.cookie,
+                          fav: snapshot.data[index].fav);
                     });
               }
             },
@@ -75,16 +77,20 @@ class _GridState extends State<Grid> {
 
 class Folder extends StatefulWidget {
   final int index;
-  final String foldername;
+  final String folderName;
+  final String cookie;
+  final bool fav;
 
-  const Folder({Key key, this.index, this.foldername}) : super(key: key);
+  const Folder({Key key, this.index, this.folderName, this.cookie, this.fav})
+      : super(key: key);
 
   @override
   _FolderState createState() => _FolderState();
 }
 
 class _FolderState extends State<Folder> {
-  Color _iconColor = Colors.grey[400];
+  Color _iconColor;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -95,7 +101,7 @@ class _FolderState extends State<Folder> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
                   icon: Icon(
@@ -104,7 +110,8 @@ class _FolderState extends State<Folder> {
                   ),
                   onPressed: () {
                     setState(() {
-                      if (_iconColor == Colors.grey[400]) {
+                      if (widget.fav) {
+                        //TODO: add fav api
                         _iconColor = Colors.red;
                       } else {
                         _iconColor = Colors.grey[400];
@@ -112,41 +119,58 @@ class _FolderState extends State<Folder> {
                     });
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(92.3, 0, 0, 0),
-                  child: PopupMenuButton(
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: 1,
+                PopupMenuButton(
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 1,
+                      child: InkWell(
+                        onTap: () async {},
                         child: Text(
                           "Download",
                           style: TextStyle(
                               color: Colors.black, fontWeight: FontWeight.w400),
                         ),
                       ),
-                      PopupMenuItem(
-                        value: 2,
+                    ),
+                    PopupMenuItem(
+                      value: 2,
+                      child: Text(
+                        "Share",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 3,
+                      child: InkWell(
+                        onTap: () async {},
                         child: Text(
-                          "Share",
+                          "Delete",
                           style: TextStyle(
                               color: Colors.black, fontWeight: FontWeight.w400),
                         ),
                       ),
-                    ],
-                    icon: Icon(Icons.more_vert),
-                    offset: Offset(0, 40),
-                  ),
+                    ),
+                  ],
+                  icon: Icon(Icons.more_vert),
+                  offset: Offset(0, 40),
                 ),
               ],
             ),
             InkWell(
-              onTap: () {},
+              onTap: () async {
+                User user =
+                    User.f(fileName: widget.folderName, cookie: widget.cookie);
+                var response = await user.fileView();
+                log(response.toString(), name: "view");
+                log(widget.folderName.toString(), name: "name");
+              },
               child: Icon(Icons.folder,
                   size: ((MediaQuery.of(context).size.width) / 3.5)),
             ),
             Container(),
             Text(
-              widget.foldername,
+              widget.folderName.substring(12),
               style: Theme.of(context).textTheme.bodyText2,
             ),
           ],
