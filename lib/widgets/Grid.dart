@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:storage_cloud/models/fileData.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/utilities/constants.dart';
@@ -93,6 +94,11 @@ class _FolderState extends State<Folder> {
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.fav) {
+      _iconColor = Colors.grey[400];
+    } else {
+      _iconColor = Colors.red;
+    }
     return Center(
       child: Card(
         color: Colors.grey.shade200,
@@ -108,15 +114,45 @@ class _FolderState extends State<Folder> {
                     Icons.favorite,
                     color: _iconColor,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      if (widget.fav) {
-                        //TODO: add fav api
-                        _iconColor = Colors.red;
-                      } else {
-                        _iconColor = Colors.grey[400];
-                      }
-                    });
+                  onPressed: () async {
+                    User user = User.f(
+                        fileName: widget.folderName, cookie: widget.cookie);
+                    var response = await user.favToggle();
+                    log(response.toString(), name: "favs");
+                    if (response["status"] == "ok") {
+                      setState(() {
+                        if (_iconColor == Colors.red) {
+                          _iconColor = Colors.grey[400];
+                          Fluttertoast.showToast(
+                              msg: "Removed to favs",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 5,
+                              backgroundColor: kContentColorDarkThemeColor,
+                              textColor: kWhite,
+                              fontSize: 16.0);
+                        } else {
+                          _iconColor = Colors.red;
+                          Fluttertoast.showToast(
+                              msg: "Added to favs",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 5,
+                              backgroundColor: kContentColorDarkThemeColor,
+                              textColor: kWhite,
+                              fontSize: 16.0);
+                        }
+                      });
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "ERROR:Please try later",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 5,
+                          backgroundColor: kContentColorDarkThemeColor,
+                          textColor: kWhite,
+                          fontSize: 16.0);
+                    }
                   },
                 ),
                 PopupMenuButton(
@@ -143,7 +179,32 @@ class _FolderState extends State<Folder> {
                     PopupMenuItem(
                       value: 3,
                       child: InkWell(
-                        onTap: () async {},
+                        onTap: () async {
+                          User user = User.f(
+                              fileName: widget.folderName,
+                              cookie: widget.cookie);
+                          var response = await user.fileDelete();
+                          log(response.toString(), name: "delete");
+                          if (response["success"] == true) {
+                            Fluttertoast.showToast(
+                                msg: "File deleted",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 5,
+                                backgroundColor: kContentColorDarkThemeColor,
+                                textColor: kWhite,
+                                fontSize: 16.0);
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "could not delete",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 5,
+                                backgroundColor: kContentColorDarkThemeColor,
+                                textColor: kWhite,
+                                fontSize: 16.0);
+                          }
+                        },
                         child: Text(
                           "Delete",
                           style: TextStyle(
