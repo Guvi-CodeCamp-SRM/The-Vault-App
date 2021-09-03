@@ -3,18 +3,18 @@ import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/drawer.dart';
 import 'package:storage_cloud/widgets/FabButton.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
-import 'package:storage_cloud/widgets/homeGrid.dart';
+import 'package:storage_cloud/widgets/FavGrid.dart';
 import 'package:storage_cloud/widgets/Search.dart';
 
 // ignore: must_be_immutable
-class HomeScreen extends StatefulWidget {
+class FavScreen extends StatefulWidget {
   var cookie, email;
-  HomeScreen({this.cookie, this.email});
+  FavScreen({this.cookie, this.email});
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _FavScreenState createState() => _FavScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _FavScreenState extends State<FavScreen> {
   double xOffset = 0;
   double yOffset = 0;
   bool isDrawerOpen = false;
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? BorderRadius.circular(40)
                   : BorderRadius.circular(0),
             ),
-            child: Grid(
+            child: FavGrid(
               cookie: widget.cookie,
             )),
       ]),

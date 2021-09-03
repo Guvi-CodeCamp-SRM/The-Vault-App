@@ -1,29 +1,31 @@
 import 'dart:developer';
-
 import 'dart:ui';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:storage_cloud/models/fileData.dart';
 import 'package:storage_cloud/models/user.dart';
+import 'package:storage_cloud/screens/image.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 
 // ignore: must_be_immutable
-class Grid extends StatefulWidget {
+class FavGrid extends StatefulWidget {
   var cookie;
-  Grid({@required this.cookie});
+  FavGrid({@required this.cookie});
   @override
-  _GridState createState() => _GridState();
+  _FavGridState createState() => _FavGridState();
 }
 
-class _GridState extends State<Grid> {
+class _FavGridState extends State<FavGrid> {
   var x;
-  Future<void> refresh() {
-    setState(() {
-      x = fileCaller();
+  List<FileData> _files;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorkey =
+      new GlobalKey<RefreshIndicatorState>();
+
+  Future<Null> refresh() {
+    return fileCaller().then((_newFile) {
+      setState(() => _files = _newFile);
     });
-    return null;
   }
 
   Future<List<FileData>> fileCaller() async {
@@ -35,70 +37,82 @@ class _GridState extends State<Grid> {
 
     var finalResponse = response.data;
     log(finalResponse.toString(), name: "z");
-    List<FileData> files = [];
+    _files = [];
     for (var f in finalResponse) {
-      FileData file = FileData(f["length"], f["uploadData"], f["filename"],
-          f["contenType"], f["fav"]);
-      files.add(file);
+      if (f["fav"]) {
+        FileData file = FileData(f["length"], f["uploadData"], f["filename"],
+            f["contenType"], f["fav"]);
+        _files.add(file);
+      }
     }
-    log(files.toString(), name: "list");
-    return files;
+    log(_files.toString(), name: "list");
+    return _files;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-          padding: const EdgeInsets.only(top: 15),
-          child: FutureBuilder(
-            future: fileCaller(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return Container(child: Center(child: Text("Loading")));
-              } else {
-                return GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Folder(
-                          index: index,
-                          folderName: snapshot.data[index].fileName,
-                          cookie: widget.cookie,
-                          fav: snapshot.data[index].fav);
-                    });
-              }
-            },
-          )),
+      body: RefreshIndicator(
+        key: _refreshIndicatorkey,
+        onRefresh: refresh,
+        child: Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: FutureBuilder(
+              future: fileCaller(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data == null) {
+                  return Container(child: Center(child: Text("Loading")));
+                } else {
+                  return GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return FavFolder(
+                            index: index,
+                            folderName: snapshot.data[index].fileName,
+                            cookie: widget.cookie,
+                            fav: snapshot.data[index].fav);
+                      });
+                }
+              },
+            )),
+      ),
     );
   }
 }
 
-class Folder extends StatefulWidget {
+class FavFolder extends StatefulWidget {
   final int index;
   final String folderName;
   final String cookie;
   final bool fav;
 
-  const Folder({Key key, this.index, this.folderName, this.cookie, this.fav})
+  const FavFolder({Key key, this.index, this.folderName, this.cookie, this.fav})
       : super(key: key);
 
   @override
-  _FolderState createState() => _FolderState();
+  _FavFolderState createState() => _FavFolderState();
 }
 
-class _FolderState extends State<Folder> {
+class _FavFolderState extends State<FavFolder> {
   Color _iconColor;
-
+  var bytes;
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     if (!widget.fav) {
       _iconColor = Colors.grey[400];
     } else {
       _iconColor = Colors.red;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: Card(
         color: Colors.grey.shade200,
@@ -222,12 +236,23 @@ class _FolderState extends State<Folder> {
               onTap: () async {
                 User user =
                     User.f(fileName: widget.folderName, cookie: widget.cookie);
-                var response = await user.fileView();
-                log(response.toString(), name: "view");
-                log(widget.folderName.toString(), name: "name");
+                bytes = await user.fileView();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => PageI(
+                      bytes: bytes,
+                    ),
+                  ),
+                );
+                // log(response.toString(), name: "view");
+                // log(widget.folderName.toString(), name: "name");
               },
-              child: Icon(Icons.folder,
-                  size: ((MediaQuery.of(context).size.width) / 3.5)),
+              child:
+                  //  if(bytes==null){
+                  Icon(Icons.folder,
+                      size: ((MediaQuery.of(context).size.width) / 3.5)),
+              // }else{Image.memory(bytes)}
             ),
             Container(),
             Text(
