@@ -59,13 +59,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ? SearchBar(
                   isSearching: _searching,
                 )
-              : Text(
-                  'Storage',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.grey.shade100,
-                  ),
-                ),
+              : widget.view
+                  ? Text(
+                      'Favorites',
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.grey.shade100,
+                      ),
+                    )
+                  : Text(
+                      'My Drive',
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.grey.shade100,
+                      ),
+                    ),
         ),
         actions: <Widget>[
           IconButton(

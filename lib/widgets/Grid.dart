@@ -72,7 +72,7 @@ class _GridState extends State<Grid> {
               future: fileCaller(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.data == null) {
-                  return Container(child: Center(child: Text("Loading")));
+                  return Container(child: Center(child: Text("Loading....")));
                 } else {
                   return GridView.builder(
                       gridDelegate:
