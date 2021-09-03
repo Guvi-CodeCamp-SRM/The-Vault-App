@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:storage_cloud/models/newRow.dart';
 import 'package:storage_cloud/models/user.dart';
-import 'package:storage_cloud/screens/favScreen.dart';
 import 'package:storage_cloud/screens/homeScreen.dart';
 import 'package:storage_cloud/screens/profile.dart';
 import 'constants.dart';
@@ -112,7 +111,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    '$space used',
+                    '$space MB used',
                     style: TextStyle(
                         fontSize: 17, color: Colors.white.withOpacity(0.5)),
                   ),
@@ -124,8 +123,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                HomeScreen(cookie: widget.cookie, email: email),
+                            builder: (BuildContext context) => HomeScreen(
+                                cookie: widget.cookie,
+                                email: email,
+                                view: false),
                           ),
                         );
                       }),
@@ -140,8 +141,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                FavScreen(cookie: widget.cookie, email: email),
+                            builder: (BuildContext context) => HomeScreen(
+                              cookie: widget.cookie,
+                              email: email,
+                              view: true,
+                            ),
                           ),
                         );
                       }),

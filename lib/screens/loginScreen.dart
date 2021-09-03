@@ -230,7 +230,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                           builder: (BuildContext context) =>
                                               HomeScreen(
                                                   cookie: logInCookie,
-                                                  email: email),
+                                                  email: email,
+                                                  view: false),
                                         ),
                                       );
                                     } else {

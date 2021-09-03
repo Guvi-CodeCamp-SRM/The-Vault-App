@@ -3,13 +3,16 @@ import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/drawer.dart';
 import 'package:storage_cloud/widgets/FabButton.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
-import 'package:storage_cloud/widgets/homeGrid.dart';
+import 'package:storage_cloud/widgets/Grid.dart';
 import 'package:storage_cloud/widgets/Search.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
-  var cookie, email;
-  HomeScreen({this.cookie, this.email});
+  var cookie;
+  String email;
+  bool view;
+  HomeScreen(
+      {@required this.cookie, @required this.email, @required this.view});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -91,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: Grid(
               cookie: widget.cookie,
+              view: widget.view,
             )),
       ]),
     );
