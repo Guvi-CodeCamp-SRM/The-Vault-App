@@ -18,6 +18,11 @@ class User {
   User.d(this.cookie);
   User.f({this.fileName, this.cookie});
 
+  Future<dynamic> spaceUsed() async {
+    var response = ApiBaseHelper().get("profile/storage", cookie);
+    return response;
+  }
+
   Future<dynamic> registerUser() async {
     var response = await ApiBaseHelper().post(
         "register",
@@ -55,10 +60,10 @@ class User {
   }
 
   Future<dynamic> fileView() async {
-    var response = await ApiBaseHelper()
-        .post('files/view/file', '{"filename":"$fileName"}', cookie);
+    var bytes = await ApiBaseHelper()
+        .postView('files/view/file', '{"filename":"$fileName"}', cookie);
 
-    return response;
+    return bytes;
   }
 
   Future<dynamic> fileDelete() async {

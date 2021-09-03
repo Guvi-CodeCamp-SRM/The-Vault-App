@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:storage_cloud/models/newRow.dart';
 import 'package:storage_cloud/models/user.dart';
+import 'package:storage_cloud/screens/favScreen.dart';
+import 'package:storage_cloud/screens/homeScreen.dart';
 import 'package:storage_cloud/screens/profile.dart';
 import 'constants.dart';
 
@@ -12,18 +15,24 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
-  Future<dynamic> userData() async {
+  void userData() async {
     User user = User.d(widget.cookie);
-    var response = await user.userProfile();
+    var response = await user.spaceUsed();
     print(response);
-    return response;
+
+    if (response["status"] == "ok" && response["size"] != null) {
+      space = response["size"];
+    } else {
+      space = 0;
+    }
   }
 
-  var name, email;
+  var name, email, space;
 
   @override
   void initState() {
     super.initState();
+    userData();
   }
 
   @override
@@ -103,15 +112,39 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    '20GB of 50Gb used',
+                    '$space used',
                     style: TextStyle(
                         fontSize: 17, color: Colors.white.withOpacity(0.5)),
                   ),
                   SizedBox(height: 30),
                   NewRow(
-                    text: 'My Drive',
-                    icon: Icons.home_outlined,
+                      text: 'My Drive',
+                      icon: Icons.home_outlined,
+                      function: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                HomeScreen(cookie: widget.cookie, email: email),
+                          ),
+                        );
+                      }),
+                  SizedBox(
+                    height: 30,
                   ),
+
+                  NewRow(
+                      text: 'Favorites',
+                      icon: Icons.favorite_border,
+                      function: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                FavScreen(cookie: widget.cookie, email: email),
+                          ),
+                        );
+                      }),
                   SizedBox(
                     height: 30,
                   ),
@@ -129,13 +162,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   // SizedBox(
                   //   height: 20,
                   // ),
-                  NewRow(
-                    text: 'Favorites',
-                    icon: Icons.favorite_border,
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
                   // NewRow(text: 'Shared', icon: Icons.chat_bubble_outline_rounded),
                   // SizedBox(
                   //   height: 20,
@@ -175,7 +201,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   var success = response["success"];
                   print(
                       "line 3=========================$msg\nsuccess is $success");
-                  Navigator.pop(context);
+                  Navigator.popUntil(context, ModalRoute.withName('/login'));
                 }
               },
               child: Row(
@@ -196,41 +222,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-class NewRow extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final Function function;
-
-  const NewRow({
-    Key key,
-    this.icon,
-    this.text,
-    this.function,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: function,
-      child: Row(
-        children: <Widget>[
-          Icon(
-            icon,
-            color: Colors.white,
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Text(
-            text,
-            style: TextStyle(color: Colors.white),
-          )
-        ],
       ),
     );
   }
