@@ -9,14 +9,15 @@ import 'package:storage_cloud/screens/image.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 
 // ignore: must_be_immutable
-class FavGrid extends StatefulWidget {
+class Grid extends StatefulWidget {
+  bool view;
   var cookie;
-  FavGrid({@required this.cookie});
+  Grid({@required this.cookie, @required this.view});
   @override
-  _FavGridState createState() => _FavGridState();
+  _GridState createState() => _GridState();
 }
 
-class _FavGridState extends State<FavGrid> {
+class _GridState extends State<Grid> {
   var x;
   List<FileData> _files;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorkey =
@@ -38,13 +39,23 @@ class _FavGridState extends State<FavGrid> {
     var finalResponse = response.data;
     log(finalResponse.toString(), name: "z");
     _files = [];
-    for (var f in finalResponse) {
-      if (f["fav"]) {
+
+    if (widget.view) {
+      for (var f in finalResponse) {
+        if (f["fav"]) {
+          FileData file = FileData(f["length"], f["uploadData"], f["filename"],
+              f["contenType"], f["fav"]);
+          _files.add(file);
+        }
+      }
+    } else {
+      for (var f in finalResponse) {
         FileData file = FileData(f["length"], f["uploadData"], f["filename"],
             f["contenType"], f["fav"]);
         _files.add(file);
       }
     }
+
     log(_files.toString(), name: "list");
     return _files;
   }
@@ -70,7 +81,7 @@ class _FavGridState extends State<FavGrid> {
                       ),
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return FavFolder(
+                        return Folder(
                             index: index,
                             folderName: snapshot.data[index].fileName,
                             cookie: widget.cookie,
@@ -84,20 +95,20 @@ class _FavGridState extends State<FavGrid> {
   }
 }
 
-class FavFolder extends StatefulWidget {
+class Folder extends StatefulWidget {
   final int index;
   final String folderName;
   final String cookie;
   final bool fav;
 
-  const FavFolder({Key key, this.index, this.folderName, this.cookie, this.fav})
+  const Folder({Key key, this.index, this.folderName, this.cookie, this.fav})
       : super(key: key);
 
   @override
-  _FavFolderState createState() => _FavFolderState();
+  _FolderState createState() => _FolderState();
 }
 
-class _FavFolderState extends State<FavFolder> {
+class _FolderState extends State<Folder> {
   Color _iconColor;
   var bytes;
   @override
