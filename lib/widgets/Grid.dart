@@ -9,6 +9,9 @@ import 'package:storage_cloud/screens/image.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 
 // ignore: must_be_immutable
+
+int refreshValue = 0;
+
 class Grid extends StatefulWidget {
   bool view;
   var cookie;
@@ -18,6 +21,8 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
+  // TODO: implement initState
+
   var x;
   List<FileData> _files;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorkey =
@@ -115,6 +120,7 @@ class _FolderState extends State<Folder> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     if (!widget.fav) {
       _iconColor = Colors.grey[400];
     } else {
@@ -219,6 +225,7 @@ class _FolderState extends State<Folder> {
                                 backgroundColor: kContentColorDarkThemeColor,
                                 textColor: kWhite,
                                 fontSize: 16.0);
+                            setState(() {});
                           } else {
                             Fluttertoast.showToast(
                                 msg: "could not delete",

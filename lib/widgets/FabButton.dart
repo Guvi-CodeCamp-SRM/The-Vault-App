@@ -56,7 +56,7 @@ class FloatButton extends StatelessWidget {
               if (result != null) {
                 // ignore: unused_local_variable
                 File file = File(result.files.single.path);
-
+                print(result.paths.toString());
                 type = lookupMimeType(result.files.first.path).toString();
 
                 try {

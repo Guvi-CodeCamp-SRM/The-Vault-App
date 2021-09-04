@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
-// import 'dart:html';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'dart:typed_data';
-// import 'dart:typed_data';
+import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+// import 'package:simple_permissions/simple_permissions.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:storage_cloud/utilities/constants.dart';
@@ -80,18 +81,32 @@ class ApiBaseHelper {
         "cookie": "$cookie"
       });
       print(response.statusCode);
-      log(response.body.toString(), name: "responseBody");
+      // log(response.body.toString(), name: "responseBody");
       log(response.headers.toString(), name: "ApiBaseHelper");
       if (response.statusCode == 200 || response.statusCode == 400) {
-        // var jsonResponse = convert.jsonDecode(response.body);
-        // String reply = await response.transform(utf8.decoder).join();
-        // print('$jsonResponse');
-        // return jsonResponse;
-        // String decoded = utf8.decode(base64.decode(response.body.toString()));
-        Uint8List bytes = await base64.decode(response.body.toString());
-        log(bytes.toString(), name: "decoded");
+        if (response.contentLength == 0) {
+          return;
+        }
+        Directory tempDir = await DownloadsPathProvider.downloadsDirectory;
+        String tempPath = tempDir.path;
+        print(tempDir.path);
+        // final Directory directory =
+        //     await Directory('$tempPath/CapturedImages').create(recursive: true);
+        // PermissionStatus permissionResult =
+        //     await Permission.;
+        // if (permissionResult == PermissionStatus.granted) {
+        // code of read or write file in external storage (SD card)
+        File file = new File('$tempPath/imageTTT.png');
+        await file.writeAsBytes(response.bodyBytes);
+        // } else {
+        //   print("not working");
+        // }
 
-        return bytes;
+        // Uint8List bytes = base64.decode(response.body);
+        // var file = File(image);
+
+        // await file.writeAsBytes(bytes);
+        return null;
       }
       return {
         'success': 'no',
@@ -112,12 +127,7 @@ class ApiBaseHelper {
       if (response.statusCode == 200 || response.statusCode == 400) {
         var jsonResponse = convert.jsonDecode(response.body);
         print('$jsonResponse');
-        // var bytes = new Uint8List(data);
-        // var blob = new Blob([bytes.buffer]);
-        // var url = Url.createObjectUrl(blob);
-        // String decoded =
-        //     utf8.decode(base64Url.decode(response.);
-        // log(decoded, name: "decoded");
+
         return jsonResponse;
       }
       return {
