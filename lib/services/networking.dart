@@ -1,15 +1,43 @@
-import 'dart:convert';
 import 'dart:developer';
-// import 'dart:html';
+// import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
-import 'dart:typed_data';
-// import 'dart:typed_data';
+// import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:storage_cloud/utilities/constants.dart';
 
 class ApiBaseHelper {
   bool status;
+  var s;
+  // Future<void> requestPermission(Permission permission) async {
+  //   final status = await permission.request();
+
+  //   print(status);
+  //   s = status;
+  //   print(s);
+  // }
+
+  Future<dynamic> get(String url, cookie) async {
+    try {
+      final response = await http
+          .get(Uri.parse("$baseUrl$url"), headers: {"cookie": "$cookie"});
+      print(response.statusCode);
+      print(response);
+      log(response.headers.toString(), name: "getr");
+      if (response.statusCode == 200 || response.statusCode == 400) {
+        var jsonResponse = convert.jsonDecode(response.body);
+        print('$jsonResponse');
+
+        return jsonResponse;
+      }
+      return {
+        'success': 'no',
+        'message': 'Request failed with status: ${response.statusCode}.'
+      };
+    } on SocketException {
+      return {'success': 'no', 'message': 'Socket Exception.'};
+    }
+  }
 
   Future<dynamic> postLogin(String url, String body) async {
     print('Api Post, url $baseUrl$url');
@@ -52,7 +80,7 @@ class ApiBaseHelper {
         "cookie": "$cookie"
       });
       print(response.statusCode);
-      log(response.body.toString(), name: "responseBody");
+      // log(response.body.toString(), name: "responseBody");
       log(response.headers.toString(), name: "ApiBaseHelper");
       if (response.statusCode == 200 || response.statusCode == 400) {
         var jsonResponse = convert.jsonDecode(response.body);
@@ -80,45 +108,11 @@ class ApiBaseHelper {
         "cookie": "$cookie"
       });
       print(response.statusCode);
-      log(response.body.toString(), name: "responseBody");
-      log(response.headers.toString(), name: "ApiBaseHelper");
-      if (response.statusCode == 200 || response.statusCode == 400) {
-        // var jsonResponse = convert.jsonDecode(response.body);
-        // String reply = await response.transform(utf8.decoder).join();
-        // print('$jsonResponse');
-        // return jsonResponse;
-        // String decoded = utf8.decode(base64.decode(response.body.toString()));
-        Uint8List bytes = await base64.decode(response.body.toString());
-        log(bytes.toString(), name: "decoded");
-
-        return bytes;
-      }
-      return {
-        'success': 'no',
-        'message': 'Request failed with status: ${response.statusCode}.'
-      };
-    } on SocketException {
-      return {'success': 'no', 'message': 'Socket Exception.'};
-    }
-  }
-
-  Future<dynamic> get(String url, cookie) async {
-    try {
-      final response = await http
-          .get(Uri.parse("$baseUrl$url"), headers: {"cookie": "$cookie"});
-      print(response.statusCode);
-      print(response);
-      log(response.headers.toString(), name: "getr");
+      // log(response.body.toString(), name: "responseBody");
+      // log(response.headers.toString(), name: "ApiBaseHelper");
       if (response.statusCode == 200 || response.statusCode == 400) {
         var jsonResponse = convert.jsonDecode(response.body);
-        print('$jsonResponse');
-        // var bytes = new Uint8List(data);
-        // var blob = new Blob([bytes.buffer]);
-        // var url = Url.createObjectUrl(blob);
-        // String decoded =
-        //     utf8.decode(base64Url.decode(response.);
-        // log(decoded, name: "decoded");
-        return jsonResponse;
+        return jsonResponse["data"];
       }
       return {
         'success': 'no',

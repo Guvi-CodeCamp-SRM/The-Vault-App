@@ -1,14 +1,23 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:pdf_render/pdf_render.dart' as r;
 import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:storage_cloud/models/fileData.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/image.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 
 // ignore: must_be_immutable
+
+int refreshValue = 0;
+
 class Grid extends StatefulWidget {
   bool view;
   var cookie;
@@ -18,6 +27,8 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
+  // TODO: implement initState
+
   var x;
   List<FileData> _files;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorkey =
@@ -37,9 +48,12 @@ class _GridState extends State<Grid> {
         data: {});
 
     var finalResponse = response.data;
-    log(finalResponse.toString(), name: "z");
+    // log(finalResponse.toString(), name: "z");
     _files = [];
-
+    // var b = null;
+    // for (var f in finalResponse) {
+    //   b = await byteHandler(f["filename"]);
+    // }
     if (widget.view) {
       for (var f in finalResponse) {
         if (f["fav"]) {
@@ -56,8 +70,15 @@ class _GridState extends State<Grid> {
       }
     }
 
-    log(_files.toString(), name: "list");
+    // log(_files.toString(), name: "list");
     return _files;
+  }
+
+  Future byteHandler(String folderName) async {
+    var bytes;
+    User user = User.f(fileName: folderName, cookie: widget.cookie);
+    bytes = await user.fileView();
+    return bytes;
   }
 
   @override
@@ -81,11 +102,13 @@ class _GridState extends State<Grid> {
                       ),
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
+                        // log(snapshot.data[index].b.toString(), name: "rise");
                         return Folder(
-                            index: index,
-                            folderName: snapshot.data[index].fileName,
-                            cookie: widget.cookie,
-                            fav: snapshot.data[index].fav);
+                          index: index,
+                          folderName: snapshot.data[index].fileName,
+                          cookie: widget.cookie,
+                          fav: snapshot.data[index].fav,
+                        );
                       });
                 }
               },
@@ -100,6 +123,7 @@ class Folder extends StatefulWidget {
   final String folderName;
   final String cookie;
   final bool fav;
+  // final byte;
 
   const Folder({Key key, this.index, this.folderName, this.cookie, this.fav})
       : super(key: key);
@@ -110,20 +134,73 @@ class Folder extends StatefulWidget {
 
 class _FolderState extends State<Folder> {
   Color _iconColor;
-  var bytes;
+  int x = 0;
+  Widget smallView;
+
+  // Icon(Icons.folder, size: ((MediaQuery.of(context).size.width) / 3.5));
+  // var bytes;
+  // Future byteHandler(String folderName) async {
+  //   User user = User.f(fileName: folderName, cookie: widget.cookie);
+  //   bytes = await user.fileView();
+  //   return bytes;
+  // }
+
+  // dynamic display() async {
+  //   if (widget.folderName.split(".").last != "pdf") {
+  //     bytes = await byteHandler(widget.folderName);
+  //   }
+  //   setState(() {
+  //     (widget.folderName.split(".").last == "pdf")
+  //         ? null
+  //         :
+  //         // log(bytes.toString(), name: "viewBytesss");
+  //         smallView = Image.memory(widget.byte);
+  //   });
+  //   // return smallView;
+  // }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
     if (!widget.fav) {
       _iconColor = Colors.grey[400];
     } else {
       _iconColor = Colors.red;
     }
+    // smallView = Icon(Icons.folder, size:((MediaQuery.of(context).size.width) / 3.5));
+    // display();
+  }
+
+  Future byteHandler(String folderName) async {
+    var bytes;
+    User user = User.f(fileName: folderName, cookie: widget.cookie);
+    bytes = await user.fileView();
+    return bytes;
+  }
+
+  Future<String> createFileFromString(
+      String byte, String folderName, int x) async {
+    Uint8List bytes = base64.decode(byte);
+    String dir =
+        // "/storage/emulated/0/DCIM";
+        (await getExternalStorageDirectory()).path;
+    var y = folderName.split(".");
+    File file;
+    if (x == 0) {
+      file = File("$dir/" + y[0].substring(12) + "." + y.last);
+    } else {
+      file = File("$dir/" + y[0].substring(12) + "($x)" + "." + y.last);
+    }
+    await file.writeAsBytes(bytes);
+    x = x + 1;
+    return file.path;
   }
 
   @override
   Widget build(BuildContext context) {
+    smallView =
+        Icon(Icons.folder, size: ((MediaQuery.of(context).size.width) / 3.5));
     return Center(
       child: Card(
         color: Colors.grey.shade200,
@@ -185,7 +262,13 @@ class _FolderState extends State<Folder> {
                     PopupMenuItem(
                       value: 1,
                       child: InkWell(
-                        onTap: () async {},
+                        onTap: () async {
+                          var byte = await byteHandler(widget.folderName);
+                          var fff = await createFileFromString(
+                              byte, widget.folderName, x);
+                          log(fff.toString(), name: "savePath");
+                          Navigator.pop(context);
+                        },
                         child: Text(
                           "Download",
                           style: TextStyle(
@@ -193,16 +276,9 @@ class _FolderState extends State<Folder> {
                         ),
                       ),
                     ),
+
                     PopupMenuItem(
                       value: 2,
-                      child: Text(
-                        "Share",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: 3,
                       child: InkWell(
                         onTap: () async {
                           User user = User.f(
@@ -219,6 +295,7 @@ class _FolderState extends State<Folder> {
                                 backgroundColor: kContentColorDarkThemeColor,
                                 textColor: kWhite,
                                 fontSize: 16.0);
+                            setState(() {});
                           } else {
                             Fluttertoast.showToast(
                                 msg: "could not delete",
@@ -237,6 +314,14 @@ class _FolderState extends State<Folder> {
                         ),
                       ),
                     ),
+                    //   PopupMenuItem(
+                    //   value: 3,
+                    //   child: Text(
+                    //     "Share",
+                    //     style: TextStyle(
+                    //         color: Colors.black, fontWeight: FontWeight.w400),
+                    //   ),
+                    // ),
                   ],
                   icon: Icon(Icons.more_vert),
                   offset: Offset(0, 40),
@@ -245,25 +330,45 @@ class _FolderState extends State<Folder> {
             ),
             InkWell(
               onTap: () async {
+                var bytes;
                 User user =
                     User.f(fileName: widget.folderName, cookie: widget.cookie);
                 bytes = await user.fileView();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => PageI(
-                      bytes: bytes,
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute<void>(
+                //     builder: (BuildContext context) => PageI(
+                //       bytes: widget.byte,
+                //     ),
+                //   ),
+                // );
+                // var  byte=await byteHandler(widget.folderName);
+                if (widget.folderName.split(".").last == "pdf") {
+                  print("object1");
+                  Uint8List byte = base64.decode(bytes);
+                  r.PdfDocument docFromData =
+                      await r.PdfDocument.openData(byte);
+                  print("object2");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => PageI(
+                          pdf: docFromData,
+                          name: widget.folderName.split(".").last),
                     ),
-                  ),
-                );
-                // log(response.toString(), name: "view");
-                // log(widget.folderName.toString(), name: "name");
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => PageI(
+                          bytes: bytes,
+                          name: widget.folderName.split(".").last),
+                    ),
+                  );
+                }
               },
-              child:
-                  //  if(bytes==null){
-                  Icon(Icons.folder,
-                      size: ((MediaQuery.of(context).size.width) / 3.5)),
-              // }else{Image.memory(bytes)}
+              child: smallView,
             ),
             Container(),
             Text(

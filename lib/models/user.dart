@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:storage_cloud/services/networking.dart';
 
 class User {
@@ -61,7 +63,8 @@ class User {
 
   Future<dynamic> fileView() async {
     var bytes = await ApiBaseHelper()
-        .postView('files/view/file', '{"filename":"$fileName"}', cookie);
+        .postView('files/view/preview', '{"filename":"$fileName"}', cookie);
+    // log(bytes.toString(), name: "responseBody");
 
     return bytes;
   }
