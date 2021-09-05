@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:pdf_render/pdf_render.dart' as r;
+// import 'package:pdf_render/pdf_render.dart' as r;
 import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf_render/pdf_render_widgets.dart';
+// import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:storage_cloud/models/fileData.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/image.dart';
@@ -346,14 +346,14 @@ class _FolderState extends State<Folder> {
                 if (widget.folderName.split(".").last == "pdf") {
                   print("object1");
                   Uint8List byte = base64.decode(bytes);
-                  r.PdfDocument docFromData =
-                      await r.PdfDocument.openData(byte);
+                  // r.PdfDocument docFromData =
+                  //     await r.PdfDocument.openData(byte);
                   print("object2");
                   Navigator.push(
                     context,
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => PageI(
-                          pdf: docFromData,
+                          // pdf: docFromData,
                           name: widget.folderName.split(".").last),
                     ),
                   );
