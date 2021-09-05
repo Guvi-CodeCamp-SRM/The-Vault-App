@@ -71,12 +71,12 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Roboto
+    - family: Satisfy
       fonts:
-        - asset: fonts/Roboto-Regular.ttf
-    - family: PT Serif
+        - asset: assets/Satisfy-Regular.ttf
+    - family: Pacifico
       fonts:
-        - asset: fonts/PTSerif-Bold.ttf
+        - asset: assets/Pacifico-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
