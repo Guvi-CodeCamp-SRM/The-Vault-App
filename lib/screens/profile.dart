@@ -97,17 +97,18 @@ class _Profile extends State<Profile> {
                               children: <Widget>[
                                 Icon(
                                   Icons.person,
-                                  size: 30,
-                                  color: kPrimaryColor,
+                                  size: 35,
+                                  color: Colors.black,
                                 ),
                                 Text(
                                   '${widget.name}',
                                   style: TextStyle(
-                                    color: kPrimaryColor,
-                                  ),
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900),
                                 ),
                                 SizedBox(
-                                  width: 10,
+                                  width: 0,
                                 ),
                               ],
                             ),
@@ -127,29 +128,71 @@ class _Profile extends State<Profile> {
                               children: <Widget>[
                                 Icon(
                                   Icons.email,
-                                  size: 30,
-                                  color: kPrimaryColor,
+                                  size: 35,
+                                  color: Colors.black,
                                 ),
-                                SizedBox(
-                                  width: 0,
-                                ),
+                                // SizedBox(
+                                //   width: 0,
+                                // ),
                                 Text(
                                   '${widget.email}',
                                   style: TextStyle(
-                                    color: kPrimaryColor,
-                                  ),
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900),
                                 )
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(height: 50),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
+                        SizedBox(height: 30),
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                    child: Text(
+                                      "Update",
+                                      style: kButtonLightTextStyle,
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: kPrimaryColor,
+                                      padding:
+                                          EdgeInsets.all(kDefaultButtonPadding),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            kDefaultBorderRadius),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              ProfileUpdate(
+                                                  cookie: widget.cookie),
+                                        ),
+                                      );
+                                    }),
+                              ),
+                              SizedBox(width: 20),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (BuildContext context) {
+                                        return SingleChildScrollView(
+                                            child: DeleteAccount(
+                                          cookie: widget.cookie,
+                                        ));
+                                      },
+                                    );
+                                  },
                                   child: Text(
-                                    "Update",
+                                    "Delete",
                                     style: kButtonLightTextStyle,
                                   ),
                                   style: ElevatedButton.styleFrom(
@@ -161,47 +204,10 @@ class _Profile extends State<Profile> {
                                           kDefaultBorderRadius),
                                     ),
                                   ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            ProfileUpdate(
-                                                cookie: widget.cookie),
-                                      ),
-                                    );
-                                  }),
-                            ),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  showModalBottomSheet<void>(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (BuildContext context) {
-                                      return SingleChildScrollView(
-                                          child: DeleteAccount(
-                                        cookie: widget.cookie,
-                                      ));
-                                    },
-                                  );
-                                },
-                                child: Text(
-                                  "Delete",
-                                  style: kButtonLightTextStyle,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: kPrimaryColor,
-                                  padding:
-                                      EdgeInsets.all(kDefaultButtonPadding),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        kDefaultBorderRadius),
-                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),

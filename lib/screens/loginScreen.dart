@@ -84,6 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 60,
+                          fontFamily: 'serif',
                         ),
                         children: [
                           TextSpan(
@@ -153,8 +154,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         tileIcon: IconButton(
                             icon: Icon(
                                 _isObscure
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: kPrimaryColor),
                             onPressed: () {
                               setState(() {
