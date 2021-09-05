@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 60,
-                          fontFamily: 'serif',
+                          fontFamily: 'Serif',
                         ),
                         children: [
                           TextSpan(
@@ -268,10 +268,10 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Not a member?'),
+                  Text('Not a member?',style: TextStyle(fontSize:16,fontWeight: FontWeight.w800),),
                   TextButton(
                     style: TextButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 13),
+                      textStyle: const TextStyle(fontSize: 13,fontWeight: FontWeight.w500),
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, '/CreateNewAccount');
