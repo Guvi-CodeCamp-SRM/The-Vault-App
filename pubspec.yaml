@@ -77,10 +77,10 @@ flutter:
   fonts:
     - family: Roboto
       fonts:
-        - asset: fonts/Roboto-Regular.ttf
+        - asset: assets/Roboto-Regular.ttf
     - family: PT Serif
       fonts:
-        - asset: fonts/PTSerif-Bold.ttf
+        - asset: assets/PTSerif-Bold.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
