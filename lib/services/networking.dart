@@ -1,7 +1,7 @@
 import 'dart:developer';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+// import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:storage_cloud/utilities/constants.dart';
@@ -9,13 +9,13 @@ import 'package:storage_cloud/utilities/constants.dart';
 class ApiBaseHelper {
   bool status;
   var s;
-  Future<void> requestPermission(Permission permission) async {
-    final status = await permission.request();
+  // Future<void> requestPermission(Permission permission) async {
+  //   final status = await permission.request();
 
-    print(status);
-    s = status;
-    print(s);
-  }
+  //   print(status);
+  //   s = status;
+  //   print(s);
+  // }
 
   Future<dynamic> get(String url, cookie) async {
     try {
