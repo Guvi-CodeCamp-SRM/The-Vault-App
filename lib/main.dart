@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:google_fonts/google_fonts.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'screens/create-new-account.dart';
@@ -19,10 +18,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'STORAGE',
       theme: ThemeData(
-        popupMenuTheme: PopupMenuThemeData(color: Colors.grey[100],),fontFamily: 'Roboto',
+        popupMenuTheme: PopupMenuThemeData(color: Colors.grey[100],),
         shadowColor: kPrimaryColor,
         textTheme:
-            GoogleFonts.josefinSansTextTheme(Theme.of(context).textTheme),
+            GoogleFonts.pacificoTextTheme(Theme.of(context).textTheme),
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
