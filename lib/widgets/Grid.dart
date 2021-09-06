@@ -5,10 +5,6 @@ import 'dart:typed_data';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
-import "package:pdf/pdf.dart";
-import "package:pdf/widgets.dart" as wd;
 import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -31,8 +27,6 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
-  // TODO: implement initState
-
   var x;
   List<FileData> _files;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorkey =
@@ -50,9 +44,9 @@ class _GridState extends State<Grid> {
           headers: {"cookie": "${widget.cookie}"},
         ),
         data: {});
-
+    log(response.toString(), name: "ATUL");
     var finalResponse = response.data;
-    // log(finalResponse.toString(), name: "z");
+    log(finalResponse.toString(), name: "z");
     _files = [];
     // var b = null;
     // for (var f in finalResponse) {
@@ -74,7 +68,7 @@ class _GridState extends State<Grid> {
       }
     }
 
-    // log(_files.toString(), name: "list");
+    log(_files.toString(), name: "list");
     return _files;
   }
 
@@ -97,7 +91,8 @@ class _GridState extends State<Grid> {
               future: fileCaller(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.data == null) {
-                  return Container(child: Center(child: Text("Loading....")));
+                  return Container(
+                      child: Center(child: Text("Your Files are shown here")));
                 } else {
                   return GridView.builder(
                       gridDelegate:
@@ -172,6 +167,23 @@ class _FolderState extends State<Folder> {
     }
     await file.writeAsBytes(bytes);
     x = x + 1;
+    log(file.path.toString(), name: "path");
+    return file.path;
+  }
+
+  Future<String> createPdfTempDir(
+    String byte,
+    String folderName,
+  ) async {
+    Uint8List bytes = base64.decode(byte);
+    String dir = (await getTemporaryDirectory()).path;
+    var y = folderName.split(".");
+    File file;
+
+    file = File("$dir/" + y[0].substring(12) + "." + y.last);
+
+    await file.writeAsBytes(bytes);
+    log(file.path.toString(), name: "path");
     return file.path;
   }
 
@@ -325,10 +337,10 @@ class _FolderState extends State<Folder> {
                   // Uint8List byte = base64.decode(bytes);
                   // r.PdfDocument docFromData =
                   //     await r.PdfDocument.openData(byte);
-                  var byte = await byteHandler(widget.folderName);
-                  var fff =
-                      await createFileFromString(byte, widget.folderName, x);
-                  File doc = File(fff);
+                  var pdfSavePath =
+                      await createPdfTempDir(bytes, widget.folderName);
+                  print(pdfSavePath);
+                  File doc = File(pdfSavePath);
 
                   // var data = await rootBundle.load();
                   // var bytes = data.buffer.asUint8List();
@@ -337,7 +349,7 @@ class _FolderState extends State<Folder> {
                     context,
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => PageI(
-                          // pdf: PDFViewer(),
+                          pdfPath: pdfSavePath,
                           name: widget.folderName.split(".").last),
                     ),
                   );
