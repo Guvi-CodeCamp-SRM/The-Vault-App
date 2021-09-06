@@ -2,13 +2,17 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-// import 'package:pdf_render/pdf_render.dart' as r;
+import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
+import "package:pdf/pdf.dart";
+import "package:pdf/widgets.dart" as wd;
 import 'dart:ui';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
-// import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:storage_cloud/models/fileData.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/image.dart';
@@ -137,28 +141,6 @@ class _FolderState extends State<Folder> {
   int x = 0;
   Widget smallView;
 
-  // Icon(Icons.folder, size: ((MediaQuery.of(context).size.width) / 3.5));
-  // var bytes;
-  // Future byteHandler(String folderName) async {
-  //   User user = User.f(fileName: folderName, cookie: widget.cookie);
-  //   bytes = await user.fileView();
-  //   return bytes;
-  // }
-
-  // dynamic display() async {
-  //   if (widget.folderName.split(".").last != "pdf") {
-  //     bytes = await byteHandler(widget.folderName);
-  //   }
-  //   setState(() {
-  //     (widget.folderName.split(".").last == "pdf")
-  //         ? null
-  //         :
-  //         // log(bytes.toString(), name: "viewBytesss");
-  //         smallView = Image.memory(widget.byte);
-  //   });
-  //   // return smallView;
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -168,8 +150,6 @@ class _FolderState extends State<Folder> {
     } else {
       _iconColor = Colors.red;
     }
-    // smallView = Icon(Icons.folder, size:((MediaQuery.of(context).size.width) / 3.5));
-    // display();
   }
 
   Future byteHandler(String folderName) async {
@@ -182,9 +162,7 @@ class _FolderState extends State<Folder> {
   Future<String> createFileFromString(
       String byte, String folderName, int x) async {
     Uint8List bytes = base64.decode(byte);
-    String dir =
-        // "/storage/emulated/0/DCIM";
-        (await getExternalStorageDirectory()).path;
+    String dir = (await getExternalStorageDirectory()).path;
     var y = folderName.split(".");
     File file;
     if (x == 0) {
@@ -267,7 +245,6 @@ class _FolderState extends State<Folder> {
                           var fff = await createFileFromString(
                               byte, widget.folderName, x);
                           log(fff.toString(), name: "savePath");
-                          Navigator.pop(context);
                         },
                         child: Text(
                           "Download",
@@ -345,15 +322,22 @@ class _FolderState extends State<Folder> {
                 // var  byte=await byteHandler(widget.folderName);
                 if (widget.folderName.split(".").last == "pdf") {
                   print("object1");
-                  Uint8List byte = base64.decode(bytes);
+                  // Uint8List byte = base64.decode(bytes);
                   // r.PdfDocument docFromData =
                   //     await r.PdfDocument.openData(byte);
+                  var byte = await byteHandler(widget.folderName);
+                  var fff =
+                      await createFileFromString(byte, widget.folderName, x);
+                  File doc = File(fff);
+
+                  // var data = await rootBundle.load();
+                  // var bytes = data.buffer.asUint8List();
                   print("object2");
                   Navigator.push(
                     context,
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => PageI(
-                          // pdf: docFromData,
+                          // pdf: PDFViewer(),
                           name: widget.folderName.split(".").last),
                     ),
                   );
@@ -370,11 +354,17 @@ class _FolderState extends State<Folder> {
               },
               child: smallView,
             ),
-            Container(),
-            Text(
-              widget.folderName.substring(12),
-              style: Theme.of(context).textTheme.bodyText2,
+            // Container(),
+            SizedBox(height: 1),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.03,
+              child: Text(
+                widget.folderName.substring(12),
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.03),
+              ),
             ),
+            // Container(height: 50),
           ],
         ),
       ),

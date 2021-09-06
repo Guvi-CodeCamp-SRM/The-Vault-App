@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'dart:io';
 import 'package:pdf/widgets.dart' as pw;
-// import 'package:pdf_render/pdf_render.dart' as r;
-// import 'package:pdf_render/pdf_render_widgets.dart';
-// import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class PageI extends StatefulWidget {
   var bytes;
@@ -35,14 +32,13 @@ class _PageIState extends State<PageI> {
     //   //   params: PdfViewerParams(pageNumber: 1),
     //   );
   }
-  // initState
 
-  // PdfDocument document = PdfDocument.
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: (widget.name != "pdf")
-            ? Image.memory(base64.decode(widget.bytes))
-            : pdfViewer(widget.pdf));
+      child: (widget.name != "pdf")
+          ? Image.memory(base64.decode(widget.bytes))
+          : null,
+    );
   }
 }

@@ -82,10 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: TextSpan(
                         text: 'STORA',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 60,
-                          fontFamily: 'Serif',
-                        ),
+                            color: Colors.white,
+                            fontSize: 60,
+                            fontFamily: 'Satisfy',
+                            fontWeight: FontWeight.w400),
                         children: [
                           TextSpan(
                             text: "G",
@@ -268,10 +268,14 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Not a member?',style: TextStyle(fontSize:16,fontWeight: FontWeight.w800),),
+                  Text(
+                    'Not a member?',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                  ),
                   TextButton(
                     style: TextButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 13,fontWeight: FontWeight.w500),
+                      textStyle: const TextStyle(
+                          fontSize: 13, fontWeight: FontWeight.w500),
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, '/CreateNewAccount');

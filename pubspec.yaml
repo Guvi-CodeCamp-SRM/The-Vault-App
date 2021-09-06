@@ -40,6 +40,9 @@ dependencies:
   permission_handler: ^8.1.4+2
   pdf: ^3.5.0
   image: ^3.0.2
+  flutter_pdfview: ^1.2.1
+  flutter_full_pdf_viewer: ^1.0.6
+  # advance_pdf_viewer: ^2.0.0
   # pdf_render: ^1.0.12
 
 
@@ -75,12 +78,12 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Roboto
+    - family: Satisfy
       fonts:
-        - asset: assets/Roboto-Regular.ttf
-    - family: PT Serif
+        - asset: assets/Satisfy-Regular.ttf
+    - family: Pacifico
       fonts:
-        - asset: assets/PTSerif-Bold.ttf
+        - asset: assets/Pacifico-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
