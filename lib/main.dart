@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'STORAGE',
       theme: ThemeData(
-        popupMenuTheme: PopupMenuThemeData(color: Colors.grey[100],),
+        popupMenuTheme: PopupMenuThemeData(
+          color: Colors.grey[100],
+        ),
         shadowColor: kPrimaryColor,
-        textTheme:
-            GoogleFonts.pacificoTextTheme(Theme.of(context).textTheme),
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

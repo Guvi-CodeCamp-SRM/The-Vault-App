@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:pdf_render/pdf_render.dart' as r;
+import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:storage_cloud/models/fileData.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/image.dart';
@@ -27,8 +27,6 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
-  // TODO: implement initState
-
   var x;
   List<FileData> _files;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorkey =
@@ -46,9 +44,9 @@ class _GridState extends State<Grid> {
           headers: {"cookie": "${widget.cookie}"},
         ),
         data: {});
-
+    log(response.toString(), name: "ATUL");
     var finalResponse = response.data;
-    // log(finalResponse.toString(), name: "z");
+    log(finalResponse.toString(), name: "z");
     _files = [];
     // var b = null;
     // for (var f in finalResponse) {
@@ -70,7 +68,7 @@ class _GridState extends State<Grid> {
       }
     }
 
-    // log(_files.toString(), name: "list");
+    log(_files.toString(), name: "list");
     return _files;
   }
 
@@ -93,7 +91,8 @@ class _GridState extends State<Grid> {
               future: fileCaller(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.data == null) {
-                  return Container(child: Center(child: Text("Loading....")));
+                  return Container(
+                      child: Center(child: Text("Your Files are shown here")));
                 } else {
                   return GridView.builder(
                       gridDelegate:
@@ -137,28 +136,6 @@ class _FolderState extends State<Folder> {
   int x = 0;
   Widget smallView;
 
-  // Icon(Icons.folder, size: ((MediaQuery.of(context).size.width) / 3.5));
-  // var bytes;
-  // Future byteHandler(String folderName) async {
-  //   User user = User.f(fileName: folderName, cookie: widget.cookie);
-  //   bytes = await user.fileView();
-  //   return bytes;
-  // }
-
-  // dynamic display() async {
-  //   if (widget.folderName.split(".").last != "pdf") {
-  //     bytes = await byteHandler(widget.folderName);
-  //   }
-  //   setState(() {
-  //     (widget.folderName.split(".").last == "pdf")
-  //         ? null
-  //         :
-  //         // log(bytes.toString(), name: "viewBytesss");
-  //         smallView = Image.memory(widget.byte);
-  //   });
-  //   // return smallView;
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -168,8 +145,6 @@ class _FolderState extends State<Folder> {
     } else {
       _iconColor = Colors.red;
     }
-    // smallView = Icon(Icons.folder, size:((MediaQuery.of(context).size.width) / 3.5));
-    // display();
   }
 
   Future byteHandler(String folderName) async {
@@ -182,9 +157,7 @@ class _FolderState extends State<Folder> {
   Future<String> createFileFromString(
       String byte, String folderName, int x) async {
     Uint8List bytes = base64.decode(byte);
-    String dir =
-        // "/storage/emulated/0/DCIM";
-        (await getExternalStorageDirectory()).path;
+    String dir = (await getExternalStorageDirectory()).path;
     var y = folderName.split(".");
     File file;
     if (x == 0) {
@@ -194,6 +167,23 @@ class _FolderState extends State<Folder> {
     }
     await file.writeAsBytes(bytes);
     x = x + 1;
+    log(file.path.toString(), name: "path");
+    return file.path;
+  }
+
+  Future<String> createPdfTempDir(
+    String byte,
+    String folderName,
+  ) async {
+    Uint8List bytes = base64.decode(byte);
+    String dir = (await getTemporaryDirectory()).path;
+    var y = folderName.split(".");
+    File file;
+
+    file = File("$dir/" + y[0].substring(12) + "." + y.last);
+
+    await file.writeAsBytes(bytes);
+    log(file.path.toString(), name: "path");
     return file.path;
   }
 
@@ -267,7 +257,6 @@ class _FolderState extends State<Folder> {
                           var fff = await createFileFromString(
                               byte, widget.folderName, x);
                           log(fff.toString(), name: "savePath");
-                          Navigator.pop(context);
                         },
                         child: Text(
                           "Download",
@@ -345,15 +334,22 @@ class _FolderState extends State<Folder> {
                 // var  byte=await byteHandler(widget.folderName);
                 if (widget.folderName.split(".").last == "pdf") {
                   print("object1");
-                  Uint8List byte = base64.decode(bytes);
-                  r.PdfDocument docFromData =
-                      await r.PdfDocument.openData(byte);
+                  // Uint8List byte = base64.decode(bytes);
+                  // r.PdfDocument docFromData =
+                  //     await r.PdfDocument.openData(byte);
+                  var pdfSavePath =
+                      await createPdfTempDir(bytes, widget.folderName);
+                  print(pdfSavePath);
+                  File doc = File(pdfSavePath);
+
+                  // var data = await rootBundle.load();
+                  // var bytes = data.buffer.asUint8List();
                   print("object2");
                   Navigator.push(
                     context,
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => PageI(
-                          pdf: docFromData,
+                          pdfPath: pdfSavePath,
                           name: widget.folderName.split(".").last),
                     ),
                   );
@@ -370,11 +366,17 @@ class _FolderState extends State<Folder> {
               },
               child: smallView,
             ),
-            Container(),
-            Text(
-              widget.folderName.substring(12),
-              style: Theme.of(context).textTheme.bodyText2,
+            // Container(),
+            SizedBox(height: 1),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.03,
+              child: Text(
+                widget.folderName.substring(12),
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.03),
+              ),
             ),
+            // Container(height: 50),
           ],
         ),
       ),
