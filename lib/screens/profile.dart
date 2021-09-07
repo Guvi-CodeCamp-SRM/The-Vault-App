@@ -80,7 +80,21 @@ class _Profile extends State<Profile> {
                         ),
                       ),
                     ),
-                    SizedBox(height: size.height / 5 - 10),
+                    SizedBox(height: size.height / 6 - 50),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 27),
+                        child: Text(
+                          'Internal Storage/Android/data/\ncom.example.storage_cloud/files/',
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w800),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -105,7 +119,7 @@ class _Profile extends State<Profile> {
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 15,
-                                      fontWeight: FontWeight.w900),
+                                      fontWeight: FontWeight.w800),
                                 ),
                                 SizedBox(
                                   width: 0,
@@ -139,7 +153,7 @@ class _Profile extends State<Profile> {
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 15,
-                                      fontWeight: FontWeight.w900),
+                                      fontWeight: FontWeight.w800),
                                 )
                               ],
                             ),

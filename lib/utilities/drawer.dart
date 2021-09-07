@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:storage_cloud/models/newRow.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/homeScreen.dart';
@@ -69,6 +70,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             msg = response["message"];
                             name = response["data"]["name"];
                             email = response["data"]["email"];
+
                             Navigator.push(
                               context,
                               MaterialPageRoute<void>(
@@ -118,6 +120,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         fontSize: 17, color: Colors.white.withOpacity(0.5)),
                   ),
                   SizedBox(height: 30),
+
                   NewRow(
                       text: 'My Drive',
                       icon: Icons.home_outlined,
