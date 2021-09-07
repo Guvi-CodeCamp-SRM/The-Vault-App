@@ -7,7 +7,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:dio/dio.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:storage_cloud/models/fileData.dart';
 import 'package:storage_cloud/models/user.dart';
@@ -134,6 +136,7 @@ class Folder extends StatefulWidget {
 class _FolderState extends State<Folder> {
   Color _iconColor;
   int x = 0;
+  bool _process = false;
   Widget smallView;
 
   @override
@@ -195,99 +198,52 @@ class _FolderState extends State<Folder> {
       child: Card(
         color: Colors.grey.shade200,
         elevation: 4,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.favorite,
-                    color: _iconColor,
-                  ),
-                  onPressed: () async {
-                    User user = User.f(
-                        fileName: widget.folderName, cookie: widget.cookie);
-                    var response = await user.favToggle();
-                    log(response.toString(), name: "favs");
-                    if (response["status"] == "ok") {
-                      setState(() {
-                        if (_iconColor == Colors.red) {
-                          _iconColor = Colors.grey[400];
-                          Fluttertoast.showToast(
-                              msg: "Removed to favs",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 5,
-                              backgroundColor: kContentColorDarkThemeColor,
-                              textColor: kWhite,
-                              fontSize: 16.0);
-                        } else {
-                          _iconColor = Colors.red;
-                          Fluttertoast.showToast(
-                              msg: "Added to favs",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 5,
-                              backgroundColor: kContentColorDarkThemeColor,
-                              textColor: kWhite,
-                              fontSize: 16.0);
-                        }
-                      });
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: "ERROR:Please try later",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 5,
-                          backgroundColor: kContentColorDarkThemeColor,
-                          textColor: kWhite,
-                          fontSize: 16.0);
-                    }
-                  },
-                ),
-                PopupMenuButton(
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: 1,
-                      child: InkWell(
-                        onTap: () async {
-                          var byte = await byteHandler(widget.folderName);
-                          var fff = await createFileFromString(
-                              byte, widget.folderName, x);
-                          log(fff.toString(), name: "savePath");
-                        },
-                        child: Text(
-                          "Download",
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.w400),
-                        ),
-                      ),
+        child: ModalProgressHUD(
+          inAsyncCall: _process,
+          opacity: 0.4,
+          progressIndicator: SpinKitDancingSquare(
+            // itemCount: 10,
+            // lineWidth: 8,
+            color: Colors.white,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.favorite,
+                      color: _iconColor,
                     ),
-
-                    PopupMenuItem(
-                      value: 2,
-                      child: InkWell(
-                        onTap: () async {
-                          User user = User.f(
-                              fileName: widget.folderName,
-                              cookie: widget.cookie);
-                          var response = await user.fileDelete();
-                          log(response.toString(), name: "delete");
-                          if (response["success"] == true) {
+                    onPressed: () async {
+                      setState(() {
+                        _process = true;
+                      });
+                      User user = User.f(
+                          fileName: widget.folderName, cookie: widget.cookie);
+                      var response = await user.favToggle();
+                      log(response.toString(), name: "favs");
+                      setState(() {
+                        _process = false;
+                      });
+                      if (response["status"] == "ok") {
+                        setState(() {
+                          if (_iconColor == Colors.red) {
+                            _iconColor = Colors.grey[400];
                             Fluttertoast.showToast(
-                                msg: "File deleted",
+                                msg: "Removed to favs",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 5,
                                 backgroundColor: kContentColorDarkThemeColor,
                                 textColor: kWhite,
                                 fontSize: 16.0);
-                            setState(() {});
                           } else {
+                            _iconColor = Colors.red;
                             Fluttertoast.showToast(
-                                msg: "could not delete",
+                                msg: "Added to favs",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 5,
@@ -295,89 +251,153 @@ class _FolderState extends State<Folder> {
                                 textColor: kWhite,
                                 fontSize: 16.0);
                           }
-                        },
-                        child: Text(
-                          "Delete",
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.w400),
+                        });
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "ERROR:Please try later",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: kContentColorDarkThemeColor,
+                            textColor: kWhite,
+                            fontSize: 16.0);
+                      }
+                    },
+                  ),
+                  PopupMenuButton(
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 1,
+                        child: InkWell(
+                          onTap: () async {
+                            setState(() {
+                              _process = true;
+                            });
+                            var byte = await byteHandler(widget.folderName);
+                            var fff = await createFileFromString(
+                                byte, widget.folderName, x);
+                            setState(() {
+                              _process = false;
+                            });
+                            log(fff.toString(), name: "savePath");
+                          },
+                          child: Text(
+                            "Download",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
+                          ),
                         ),
                       ),
-                    ),
-                    //   PopupMenuItem(
-                    //   value: 3,
-                    //   child: Text(
-                    //     "Share",
-                    //     style: TextStyle(
-                    //         color: Colors.black, fontWeight: FontWeight.w400),
-                    //   ),
-                    // ),
-                  ],
-                  icon: Icon(Icons.more_vert),
-                  offset: Offset(0, 40),
-                ),
-              ],
-            ),
-            InkWell(
-              onTap: () async {
-                var bytes;
-                User user =
-                    User.f(fileName: widget.folderName, cookie: widget.cookie);
-                bytes = await user.fileView();
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute<void>(
-                //     builder: (BuildContext context) => PageI(
-                //       bytes: widget.byte,
-                //     ),
-                //   ),
-                // );
-                // var  byte=await byteHandler(widget.folderName);
-                if (widget.folderName.split(".").last == "pdf") {
-                  print("object1");
-                  // Uint8List byte = base64.decode(bytes);
-                  // r.PdfDocument docFromData =
-                  //     await r.PdfDocument.openData(byte);
-                  var pdfSavePath =
-                      await createPdfTempDir(bytes, widget.folderName);
-                  print(pdfSavePath);
-                  File doc = File(pdfSavePath);
-
-                  // var data = await rootBundle.load();
-                  // var bytes = data.buffer.asUint8List();
-                  print("object2");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => PageI(
-                          pdfPath: pdfSavePath,
-                          name: widget.folderName.split(".").last),
-                    ),
-                  );
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => PageI(
-                          bytes: bytes,
-                          name: widget.folderName.split(".").last),
-                    ),
-                  );
-                }
-              },
-              child: smallView,
-            ),
-            // Container(),
-            SizedBox(height: 1),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.03,
-              child: Text(
-                widget.folderName.substring(12),
-                style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.03),
+                      PopupMenuItem(
+                        value: 2,
+                        child: InkWell(
+                          onTap: () async {
+                            setState(() {
+                              _process = true;
+                            });
+                            User user = User.f(
+                                fileName: widget.folderName,
+                                cookie: widget.cookie);
+                            var response = await user.fileDelete();
+                            log(response.toString(), name: "delete");
+                            setState(() {
+                              _process = false;
+                            });
+                            if (response["success"] == true) {
+                              Fluttertoast.showToast(
+                                  msg: "File deleted",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 5,
+                                  backgroundColor: kContentColorDarkThemeColor,
+                                  textColor: kWhite,
+                                  fontSize: 16.0);
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "could not delete",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 5,
+                                  backgroundColor: kContentColorDarkThemeColor,
+                                  textColor: kWhite,
+                                  fontSize: 16.0);
+                            }
+                          },
+                          child: Text(
+                            "Delete",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ),
+                    ],
+                    icon: Icon(Icons.more_vert),
+                    offset: Offset(0, 40),
+                  ),
+                ],
               ),
-            ),
-            // Container(height: 50),
-          ],
+              InkWell(
+                onTap: () async {
+                  setState(() {
+                    _process = true;
+                  });
+                  var bytes;
+                  User user = User.f(
+                      fileName: widget.folderName, cookie: widget.cookie);
+                  bytes = await user.fileView();
+
+                  if (widget.folderName.split(".").last == "pdf" ||
+                      widget.folderName.split(".").last == "doc") {
+                    print("object1");
+
+                    var pdfSavePath =
+                        await createPdfTempDir(bytes, widget.folderName);
+                    print(pdfSavePath);
+                    File doc = File(pdfSavePath);
+
+                    print("object2");
+                    setState(() {
+                      _process = false;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => PageI(
+                            pdfPath: pdfSavePath,
+                            name: widget.folderName.split(".").last),
+                      ),
+                    );
+                  } else {
+                    setState(() {
+                      _process = false;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => PageI(
+                            bytes: bytes,
+                            name: widget.folderName.split(".").last),
+                      ),
+                    );
+                  }
+                },
+                child: smallView,
+              ),
+              // Container(),
+              SizedBox(height: 1),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.03,
+                child: Text(
+                  widget.folderName.substring(12),
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.03),
+                ),
+              ),
+              // Container(height: 50),
+            ],
+          ),
         ),
       ),
     );
