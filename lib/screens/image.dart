@@ -4,10 +4,11 @@ import 'dart:io';
 // import 'package:image/image.dart' as Im;
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:pdf/pdf.dart';
+//import 'package:pdf/pdf.dart';
 // import 'dart:io';
 import 'package:pdf/widgets.dart' as pw;
 
+// ignore: must_be_immutable
 class PageI extends StatefulWidget {
   var bytes;
   String name;

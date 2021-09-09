@@ -6,6 +6,7 @@ import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/widgets/inputTile.dart';
+import 'package:storage_cloud/widgets/size_config.dart';
 
 class CreateNewAccount extends StatefulWidget {
   @override
@@ -155,8 +156,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                             tileIcon: IconButton(
                                 icon: Icon(
                                     _isObscure
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
                                     color: kPrimaryColor),
                                 onPressed: () {
                                   setState(() {
@@ -185,8 +186,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                             tileIcon: IconButton(
                                 icon: Icon(
                                     _isObscureTwo
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
                                     color: kPrimaryColor),
                                 onPressed: () {
                                   setState(() {
@@ -275,17 +276,22 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Already a member?'),
+                      Text('Already a member?',
+                          style: TextStyle(
+                              fontSize: 1.9 * SizeConfig.textMultiplier,
+                              fontWeight: FontWeight.w700)),
                       TextButton(
                         style: TextButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 13),
+                          textStyle: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w700),
                         ),
                         onPressed: () {
                           Navigator.of(context)
                               .popUntil(ModalRoute.withName("/"));
                         },
-                        child: const Text('Login',
+                        child: Text('Login',
                             style: TextStyle(
+                                fontWeight: FontWeight.w700,
                                 decoration: TextDecoration.underline,
                                 color: kPrimaryColor)),
                       ),

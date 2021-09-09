@@ -5,6 +5,7 @@ import 'package:storage_cloud/widgets/FabButton.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:storage_cloud/widgets/Grid.dart';
 import 'package:storage_cloud/widgets/Search.dart';
+import 'package:storage_cloud/widgets/size_config.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
@@ -35,7 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: kPrimaryColor,
         leading: isDrawerOpen
             ? GestureDetector(
-                child: Icon(Icons.close),
+                child: Icon(Icons.close,
+                    size: 6.08 * SizeConfig.imageSizeMultiplier),
                 onTap: () {
                   setState(() {
                     xOffset = 0;
@@ -45,7 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               )
             : GestureDetector(
-                child: Icon(Icons.menu),
+                child: Icon(Icons.menu,
+                    size: 6.08 * SizeConfig.imageSizeMultiplier),
                 onTap: () {
                   setState(() {
                     xOffset = 290;
@@ -60,33 +63,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   isSearching: _searching,
                 )
               : widget.view
-                  ? Text(
-                      'Favorites',
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.grey.shade100,
+                  ? Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 50, 0),
+                    child: Text(
+                        'Favorites',
+                        style: TextStyle(
+                          fontSize: 3.6 * SizeConfig.textMultiplier,
+                          fontFamily: 'Pacifico',
+                          //color: Colors.grey.shade100,
+                        ),
                       ),
-                    )
-                  : Text(
-                      'My Drive',
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.grey.shade100,
-                        fontFamily: 'Pacifico'
+                  )
+                  : Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 50, 0),
+                    child: Text(
+                        'My Drive',
+                        style: TextStyle(
+                            fontSize: 3.6 * SizeConfig.textMultiplier,
+                            //color: Colors.grey.shade100,
+                            fontFamily: 'Pacifico'),
                       ),
-                    ),
+                  ),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search, color: Colors.white),
-            onPressed: () {
-              setState(() {
-                _searching = !_searching;
-              });
-            },
-            tooltip: 'Search',
-          ),
-        ],
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: Icon(Icons.search, color: Colors.white),
+        //     onPressed: () {
+        //       setState(() {
+        //         _searching = !_searching;
+        //       });
+        //     },
+        //     tooltip: 'Search',
+        //   ),
+        // ],
       ),
       body: Stack(children: [
         DrawerScreen(cookie: widget.cookie, email: widget.email),

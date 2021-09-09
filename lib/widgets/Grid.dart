@@ -15,11 +15,13 @@ import 'package:storage_cloud/models/fileData.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/image.dart';
 import 'package:storage_cloud/utilities/constants.dart';
+import 'package:storage_cloud/widgets/size_config.dart';
 
 // ignore: must_be_immutable
 
 int refreshValue = 0;
 
+// ignore: must_be_immutable
 class Grid extends StatefulWidget {
   bool view;
   var cookie;
@@ -96,21 +98,24 @@ class _GridState extends State<Grid> {
                   return Container(
                       child: Center(child: Text("Your Files are shown here")));
                 } else {
-                  return GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                      ),
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        // log(snapshot.data[index].b.toString(), name: "rise");
-                        return Folder(
-                          index: index,
-                          folderName: snapshot.data[index].fileName,
-                          cookie: widget.cookie,
-                          fav: snapshot.data[index].fav,
-                        );
-                      });
+                  return Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          // log(snapshot.data[index].b.toString(), name: "rise");
+                          return Folder(
+                            index: index,
+                            folderName: snapshot.data[index].fileName,
+                            cookie: widget.cookie,
+                            fav: snapshot.data[index].fav,
+                          );
+                        }),
+                  );
                 }
               },
             )),
@@ -216,6 +221,7 @@ class _FolderState extends State<Folder> {
                     icon: Icon(
                       Icons.favorite,
                       color: _iconColor,
+                      size: 6.08*SizeConfig.imageSizeMultiplier,
                     ),
                     onPressed: () async {
                       setState(() {
@@ -355,6 +361,7 @@ class _FolderState extends State<Folder> {
                     var pdfSavePath =
                         await createPdfTempDir(bytes, widget.folderName);
                     print(pdfSavePath);
+                    // ignore: unused_local_variable
                     File doc = File(pdfSavePath);
 
                     print("object2");

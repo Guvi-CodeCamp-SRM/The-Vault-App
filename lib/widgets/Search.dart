@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
         )),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.search, color: Colors.black),
+            icon: Icon(Icons.search),
             onPressed: () {
               setState(() {
                 _searching = !_searching;

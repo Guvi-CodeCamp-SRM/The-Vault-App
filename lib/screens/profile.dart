@@ -4,6 +4,7 @@ import 'package:storage_cloud/screens/profileUpdate.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/utilities/deleteAccount.dart';
+import 'package:storage_cloud/widgets/size_config.dart';
 
 // ignore: must_be_immutable
 class Profile extends StatefulWidget {
@@ -51,7 +52,7 @@ class _Profile extends State<Profile> {
                           child: Text(
                             "Profile",
                             style: TextStyle(
-                              fontSize: 35,
+                              fontSize: 5.1*SizeConfig.textMultiplier,
                               letterSpacing: 1.5,
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
@@ -84,11 +85,11 @@ class _Profile extends State<Profile> {
                     Card(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 27),
+                            vertical: 8, horizontal: 34),
                         child: Text(
                           'Internal Storage/Android/data/\ncom.example.storage_cloud/files/',
                           style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 2.4*SizeConfig.textMultiplier,
                               color: Colors.black,
                               fontWeight: FontWeight.w800),
                         ),
@@ -159,7 +160,7 @@ class _Profile extends State<Profile> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 30),
+                        SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Row(

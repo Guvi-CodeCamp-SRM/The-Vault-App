@@ -10,6 +10,7 @@ import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/widgets/inputTile.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:storage_cloud/widgets/size_config.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
           timeInSecForIosWeb: 5,
           backgroundColor: kContentColorDarkThemeColor,
           textColor: kWhite,
-          fontSize: 16.0);
+          fontSize: 1.9 * SizeConfig.textMultiplier);
       return false;
     }
   }
@@ -78,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           text: 'STORA',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 60,
+                              fontSize: 9 * SizeConfig.textMultiplier,
                               fontFamily: 'Satisfy',
                               fontWeight: FontWeight.w400),
                           children: [
@@ -86,20 +87,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               text: "G",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 60,
+                                fontSize: 9 * SizeConfig.textMultiplier,
                               ),
                             ),
                             TextSpan(
                               text: "E",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 60,
+                                fontSize: 9 * SizeConfig.textMultiplier,
                               ),
                             ),
                           ]),
                     ),
                   ),
                 ),
+                SizedBox(height: 5),
                 Form(
                   key: formkey,
                   child: Padding(
@@ -108,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         InputTile(
-                          startIcon: Icon(Icons.email, color: kPrimaryColor),
+                          startIcon: Icon(Icons.email, color: kPrimaryColor,size: 6 * SizeConfig.imageSizeMultiplier),
                           keyboard: TextInputType.emailAddress,
                           setValidator: (value) {
                             if (value.isEmpty) {
@@ -128,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 20.0),
                         InputTile(
-                          startIcon: Icon(Icons.lock, color: kPrimaryColor),
+                          startIcon: Icon(Icons.lock, color: kPrimaryColor,size: 6 * SizeConfig.imageSizeMultiplier),
                           inputType: "Enter Password",
                           callBack: (value) {
                             password = value;
@@ -151,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _isObscure
                                       ? Icons.visibility_off
                                       : Icons.visibility,
-                                  color: kPrimaryColor),
+                                  color: kPrimaryColor,size:6 * SizeConfig.imageSizeMultiplier,),
                               onPressed: () {
                                 setState(() {
                                   _isObscure = !_isObscure;
@@ -160,7 +162,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 13),
+                            textStyle: TextStyle(
+                                fontSize: 1.9 * SizeConfig.textMultiplier),
                           ),
                           onPressed: () {
                             showModalBottomSheet<void>(
@@ -249,14 +252,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                       var response = listResponse[0];
                                       var msg = response["message"];
                                       Fluttertoast.showToast(
-                                          msg: msg,
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 5,
-                                          backgroundColor:
-                                              kContentColorDarkThemeColor,
-                                          textColor: kWhite,
-                                          fontSize: 16.0);
+                                        msg: msg,
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 5,
+                                        backgroundColor:
+                                            kContentColorDarkThemeColor,
+                                        textColor: kWhite,
+                                        fontSize:
+                                            2.2 * SizeConfig.textMultiplier,
+                                      );
                                     }
                                   }
                                 },
@@ -264,7 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 2),
                       ],
                     ),
                   ),
@@ -274,13 +279,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text(
                       'Not a member?',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                      style: TextStyle(
+                          fontSize: 1.9 * SizeConfig.textMultiplier,
+                          fontWeight: FontWeight.w700),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                        textStyle: const TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.w500),
+                        textStyle: TextStyle(
+                            fontSize: 1.9 * SizeConfig.textMultiplier,
+                            fontWeight: FontWeight.w700),
                       ),
                       onPressed: () {
                         Navigator.pushNamed(context, '/CreateNewAccount');
