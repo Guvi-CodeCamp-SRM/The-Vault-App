@@ -53,6 +53,15 @@ It also has a favourites option thorugh which people can choose there favourite 
                 ⏳💻
             </a>
           </td>
+     <td align="center">
+            <a href="https://github.com/Kevin-Aaaquil">
+              <img src="https://avatars.githubusercontent.com/u/73784677?v=4" width="100px" alt=""/><br />
+              <sub><b>Aksh Sood</b></sub>
+            </a><br/>
+            <a href="https://github.com/Kevin-Aaaquil"> 
+               💻📚
+            </a>
+          </td>
   
   </tr>
 </table>
