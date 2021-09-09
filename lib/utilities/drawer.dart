@@ -1,11 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+//import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:storage_cloud/models/newRow.dart';
 import 'package:storage_cloud/models/user.dart';
 import 'package:storage_cloud/screens/homeScreen.dart';
 import 'package:storage_cloud/screens/profile.dart';
+import 'package:storage_cloud/widgets/size_config.dart';
 import 'constants.dart';
 
 // ignore: must_be_immutable
@@ -102,7 +103,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     '${widget.email.toString().split("@")[0]}',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 22,
+                        fontSize: 3*SizeConfig.textMultiplier,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -117,7 +118,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   Text(
                     '$space MB used',
                     style: TextStyle(
-                        fontSize: 17, color: Colors.white.withOpacity(0.5)),
+                        fontSize: 2.2*SizeConfig.textMultiplier, color: Colors.white.withOpacity(0.5)),
                   ),
                   SizedBox(height: 30),
 

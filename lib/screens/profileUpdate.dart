@@ -8,6 +8,7 @@ import 'package:storage_cloud/screens/profile.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'package:storage_cloud/widgets/inputTile.dart';
+import 'package:storage_cloud/widgets/size_config.dart';
 
 // ignore: must_be_immutable
 class ProfileUpdate extends StatefulWidget {
@@ -26,6 +27,7 @@ class _ProfileUpdate extends State<ProfileUpdate> {
   String email;
 
   bool _updating = false;
+  // ignore: unused_field
   bool _isObscureTwo = true;
 
   bool validate() {
@@ -81,7 +83,7 @@ class _ProfileUpdate extends State<ProfileUpdate> {
                             child: Text(
                               "Profile",
                               style: TextStyle(
-                                fontSize: 35,
+                                fontSize: 5.1*SizeConfig.textMultiplier,
                                 letterSpacing: 1.5,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -120,7 +122,7 @@ class _ProfileUpdate extends State<ProfileUpdate> {
                             children: [
                               InputTile(
                                 startIcon:
-                                    Icon(Icons.person, color: kPrimaryColor),
+                                    Icon(Icons.person, color: kPrimaryColor,size: 6 * SizeConfig.imageSizeMultiplier),
                                 setValidator: (value) {
                                   if (value.isEmpty) {
                                     return "Required";
@@ -137,7 +139,7 @@ class _ProfileUpdate extends State<ProfileUpdate> {
                               SizedBox(height: 20.0),
                               InputTile(
                                 startIcon: Icon(Icons.mail_rounded,
-                                    color: kPrimaryColor),
+                                    color: kPrimaryColor,size: 6 * SizeConfig.imageSizeMultiplier),
                                 callBack: (value) {
                                   email = value;
                                   print(email);
