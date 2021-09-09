@@ -198,7 +198,7 @@ class _FolderState extends State<Folder> {
   @override
   Widget build(BuildContext context) {
     smallView =
-        Icon(Icons.folder, size: ((MediaQuery.of(context).size.width) / 3.5));
+        Icon(Icons.folder, size: ((MediaQuery.of(context).size.width) / 4.5));
     return Center(
       child: Card(
         color: Colors.grey.shade200,
@@ -221,7 +221,7 @@ class _FolderState extends State<Folder> {
                     icon: Icon(
                       Icons.favorite,
                       color: _iconColor,
-                      size: 6.08*SizeConfig.imageSizeMultiplier,
+                      size: 6 * SizeConfig.imageSizeMultiplier,
                     ),
                     onPressed: () async {
                       setState(() {
@@ -393,14 +393,11 @@ class _FolderState extends State<Folder> {
                 child: smallView,
               ),
               // Container(),
-              SizedBox(height: 1),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.03,
-                child: Text(
-                  widget.folderName.substring(12),
-                  style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.03),
-                ),
+              // SizedBox(height: 1),
+              Text(
+                widget.folderName.substring(12),
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.03),
               ),
               // Container(height: 50),
             ],

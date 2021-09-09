@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           text: 'STORA',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 9 * SizeConfig.textMultiplier,
+                              fontSize: 8 * SizeConfig.textMultiplier,
                               fontFamily: 'Satisfy',
                               fontWeight: FontWeight.w400),
                           children: [
@@ -110,7 +110,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         InputTile(
-                          startIcon: Icon(Icons.email, color: kPrimaryColor,size: 6 * SizeConfig.imageSizeMultiplier),
+                          startIcon: Icon(Icons.email,
+                              color: kPrimaryColor,
+                              size: 6 * SizeConfig.imageSizeMultiplier),
                           keyboard: TextInputType.emailAddress,
                           setValidator: (value) {
                             if (value.isEmpty) {
@@ -130,7 +132,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 20.0),
                         InputTile(
-                          startIcon: Icon(Icons.lock, color: kPrimaryColor,size: 6 * SizeConfig.imageSizeMultiplier),
+                          startIcon: Icon(Icons.lock,
+                              color: kPrimaryColor,
+                              size: 6 * SizeConfig.imageSizeMultiplier),
                           inputType: "Enter Password",
                           callBack: (value) {
                             password = value;
@@ -150,10 +154,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           isObscure: _isObscure,
                           tileIcon: IconButton(
                               icon: Icon(
-                                  _isObscure
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                  color: kPrimaryColor,size:6 * SizeConfig.imageSizeMultiplier,),
+                                _isObscure
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: kPrimaryColor,
+                                size: 6 * SizeConfig.imageSizeMultiplier,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   _isObscure = !_isObscure;
