@@ -1,16 +1,63 @@
-# storage_cloud
+<h1 style="text-align:center; font-size:3rem">Storage-App<h1>
 
-A new Flutter project.
+## About the Project 🧾
 
-## Getting Started
+My Drive is an application which is made exclusively to store files for free and can access them easily whenever needed..
 
-This project is a cloud storage project.
+## Aim of the Project 🎯
+  
+My drive is a app similar to google drive which gives you the storage of 516 gb .Here you can store files like images and pdf as in for now.You can STORE and VIEW your files here .We are also planning to add a feature wherein the user can save all the important docs in encrypted form.In future it has further updates to come both in app as well as website.
 
-A few resources to get you started if this is your first Flutter project:
+## Tech-stack 🖥
+### `Front-end`
+- Flutter
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### `Back-end`
+- Node.js
+- MongoDB Compass
+- Express.js
+  
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Future Scope of this Project 💥
+
+- Video preview
+- Add a encryption feature to prevent unauthorized access 
+- Add the share feature
+- QR Code Scanner
+- Search Bar
+
+
+## 💖 Our awesome contributors:technologist: 🎉🎉
+<table>
+  <tr>
+    <td align="center">
+            <a href="https://github.com/aksh-sood">
+              <img src="https://avatars.githubusercontent.com/u/53402073?v=4" width="100px" alt=""/><br />
+              <sub><b>Aksh Sood</b></sub>
+            </a><br/>
+            <a href="https://github.com/aksh-sood">   
+                👑💬
+            </a>
+          </td>
+    <td align="center">
+            <a href="https://github.com/aryamanshrivastava">
+              <img src="https://avatars.githubusercontent.com/u/73066304?v=4" width="100px" alt=""/><br />
+              <sub><b>Aryaman Shrivastava</b></sub>
+            </a><br/>
+            <a href="https://github.com/aryamanshrivastava">
+                ⏳💻
+            </a>
+          </td>
+    <td align="center">
+            <a href="https://github.com/Kevin-Aaaquil">
+              <img src="https://avatars.githubusercontent.com/u/73784677?v=4" width="100px" alt=""/><br />
+              <sub><b>Eshan Singh</b></sub>
+            </a><br/>
+            <a href="https://github.com/Kevin-Aaaquil">
+                💻📖
+            </a>
+          </td>
+  </tr>
+</table>
+
+
