@@ -6,7 +6,7 @@ My Drive is an application which is made exclusively to store files for free and
 
 ## Aim of the Project 🎯
   
-My drive is a app similar to google drive which gives you the storage of 516 gb .Here you can store files like images and pdf as in for now.You can STORE and VIEW your files here .We are also planning to add a feature wherein the user can save all the important docs in encrypted form.In future it has further updates to come both in app as well as website.
+My Drive is a app similar to google drive which gives you the storage of 516 gb .Here you can store files like images and pdf as in for now.You can STORE and VIEW your files here .We are also planning to add a feature wherein the user can save all the important docs in encrypted form.In future it has further updates to come both in app as well as website.
 
 ## Tech-stack 🖥
 ### `Front-end`
