@@ -13,6 +13,9 @@ It also has a favourites option thorugh which people can choose there favourite 
   
  We are also planning to add a feature wherein the user can save all the important docs in encrypted form and share the desirable files through a link , also video preview will be avaiable in future both in app as well as website.
 
+
+## APK-Link
+
 ## Tech-stack 🖥
 ### `Front-end`
 - Flutter
