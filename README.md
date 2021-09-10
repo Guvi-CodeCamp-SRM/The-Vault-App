@@ -1,4 +1,4 @@
-## The-Vault-App
+# The-Vault-App
 
 ## About the Project 🧾
 
