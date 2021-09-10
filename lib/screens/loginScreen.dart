@@ -3,6 +3,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:storage_cloud/models/user.dart';
+import 'package:storage_cloud/screens/create-new-account.dart';
 //import 'package:storage_cloud/utilities/forgot-password.dart';
 import 'package:storage_cloud/screens/homeScreen.dart';
 import 'package:storage_cloud/utilities/background.dart';
@@ -260,6 +261,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         });
                                         print(
                                             "line 3=========================$msg\nsuccess is $success");
+                                        setState(() {
+                                          _login = false;
+                                        });
                                       }
                                     } else {
                                       var response = listResponse[0];
@@ -309,7 +313,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.w700),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/CreateNewAccount');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  CreateNewAccount()),
+                        );
                       },
                       child: const Text('Register',
                           style: TextStyle(
