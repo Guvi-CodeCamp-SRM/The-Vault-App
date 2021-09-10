@@ -103,7 +103,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     '${widget.email.toString().split("@")[0]}',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 3*SizeConfig.textMultiplier,
+                        fontSize: 3 * SizeConfig.textMultiplier,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -118,12 +118,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   Text(
                     '$space MB used',
                     style: TextStyle(
-                        fontSize: 2.2*SizeConfig.textMultiplier, color: Colors.white.withOpacity(0.5)),
+                        fontSize: 2.2 * SizeConfig.textMultiplier,
+                        color: Colors.white.withOpacity(0.5)),
                   ),
                   SizedBox(height: 30),
 
                   NewRow(
-                      text: 'My Drive',
+                      text: 'The Vault',
                       icon: Icons.home_outlined,
                       function: () {
                         Navigator.push(

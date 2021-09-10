@@ -18,134 +18,133 @@ class FloatButton extends StatelessWidget {
   var cookie;
   final GlobalKey<FabCircularMenuState> fabKey;
 
-  get convert => null;
+  get convert =>null;
 
   @override
   Widget build(BuildContext context) {
     return Builder(
-      builder: (context) => FabCircularMenu(
-        key: fabKey,
-        alignment: Alignment.bottomRight,
-        ringDiameter: 300.0,
-        ringWidth: 100.0,
-        ringColor: Colors.transparent,
-        fabSize: 60.0,
-        fabElevation: 8.0,
-        fabIconBorder: CircleBorder(),
-        fabColor: kPrimaryColor,
-        fabOpenIcon: Icon(Icons.menu_open, color: Colors.white),
-        fabCloseIcon: Icon(Icons.close, color: Colors.white),
-        fabMargin: const EdgeInsets.all(16.0),
-        animationDuration: const Duration(milliseconds: 850),
-        animationCurve: Curves.easeInOutCirc,
-        onDisplayChange: (isOpen) {},
-        children: <Widget>[
+      builder: (context) =>
+          // FabCircularMenu(
+          //     key: fabKey,
+          //     alignment: Alignment.bottomRight,
+          //     ringDiameter: 300.0,
+          //     ringWidth: 100.0,
+          //     ringColor: Colors.transparent,
+          //     fabSize: 60.0,
+          //     fabElevation: 8.0,
+          //     fabIconBorder: CircleBorder(),
+          //     fabColor: kPrimaryColor,
+          //fabOpenIcon: Icon(Icons.menu_open, color: Colors.white),
+          //fabCloseIcon: Icon(Icons.close, color: Colors.white),
+          //     fabMargin: const EdgeInsets.all(16.0),
+          //     animationDuration: const Duration(milliseconds: 850),
+          //     animationCurve: Curves.easeInOutCirc,
+          //     onDisplayChange: (isOpen) {},
+          //     children: <Widget>[
+          // RawMaterialButton(
+          //   fillColor: Colors.black,
+          //   onPressed: () {},
+          //   shape: CircleBorder(),
+          //   padding: const EdgeInsets.all(18.0),
+          //   child: Icon(Icons.folder, color: Colors.white),
+          // ),
           RawMaterialButton(
-            fillColor: Colors.black,
-            onPressed: () {},
-            shape: CircleBorder(),
-            padding: const EdgeInsets.all(18.0),
-            child: Icon(Icons.folder, color: Colors.white),
-          ),
-          RawMaterialButton(
-            fillColor: Colors.deepPurple,
-            onPressed: () async {
-              FilePickerResult result = await FilePicker.platform.pickFiles();
-              var msg;
-              String type;
-              if (result != null) {
-                // ignore: unused_local_variable
-                File file = File(result.files.single.path);
-                print(result.paths.toString());
-                type = lookupMimeType(result.files.first.path).toString();
+        fillColor: Colors.deepPurple,
+        onPressed: () async {
+          FilePickerResult result = await FilePicker.platform.pickFiles();
+          var msg;
+          String type;
+          if (result !=null) {
+            // ignore: unused_local_variable
+            File file = File(result.files.single.path);
+            print(result.paths.toString());
+            type = lookupMimeType(result.files.first.path).toString();
+            try {
+              FormData formData = new FormData.fromMap({
+                "file": await MultipartFile.fromFile(result.files.first.path,
+                    contentType:
+                        MediaType(type.split("/")[0], type.split("/")[1]),
+                    filename: result.files.first.name)
+              });
+              var jsonResponse = await Dio().post("${baseUrl}files/upload",
+                  options: Options(headers: {
+                    "cookie": "$cookie",
+                  }, contentType: 'multipart/form-data'),
+                  data: formData);
+              print("File Upload response:$jsonResponse");
+              print(jsonResponse.statusCode);
+              print(jsonResponse.data);
+              if (jsonResponse.statusCode == 200 ||
+                  jsonResponse.statusCode == 400) {
+                Map<String, dynamic> response = jsonResponse.data;
+                print(response["status"].toString());
+                print('$response');
 
-                try {
-                  FormData formData = new FormData.fromMap({
-                    "file": await MultipartFile.fromFile(
-                        result.files.first.path,
-                        contentType:
-                            MediaType(type.split("/")[0], type.split("/")[1]),
-                        filename: result.files.first.name)
-                  });
-                  var jsonResponse = await Dio().post("${baseUrl}files/upload",
-                      options: Options(headers: {
-                        "cookie": "$cookie",
-                      }, contentType: 'multipart/form-data'),
-                      data: formData);
-                  print("File Upload response:$jsonResponse");
-                  print(jsonResponse.statusCode);
-                  print(jsonResponse.data);
-                  if (jsonResponse.statusCode == 200 ||
-                      jsonResponse.statusCode == 400) {
-                    Map<String, dynamic> response = jsonResponse.data;
-                    print(response["status"].toString());
-                    print('$response');
+                var ok = response["message"];
+                print("this is well==================$ok");
+                if (response["status"] == "error") {
+                  msg = response["message"];
+                  print("line 2 ======================$msg");
+                } else if (response["status"] == "ok") {
+                  msg = response["message"];
+                  print("line 2 ======================$msg");
+                  Fluttertoast.showToast(
+                      msg: "File has been uploaded succesfully",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 5,
+                      backgroundColor: kContentColorDarkThemeColor,
+                      textColor: kWhite,
+                      fontSize: 16.0);
+                } else {
+                  msg = response["message"];
 
-                    var ok = response["message"];
-                    print("this is well==================$ok");
-                    if (response["status"] == "error") {
-                      msg = response["message"];
-                      print("line 2 ======================$msg");
-                    } else if (response["status"] == "ok") {
-                      msg = response["message"];
-                      print("line 2 ======================$msg");
-                      Fluttertoast.showToast(
-                          msg: "File has been uploaded succesfully",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 5,
-                          backgroundColor: kContentColorDarkThemeColor,
-                          textColor: kWhite,
-                          fontSize: 16.0);
-                    } else {
-                      msg = response["message"];
-
-                      Fluttertoast.showToast(
-                          msg: "ptani kya line hai ye",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 5,
-                          backgroundColor: kContentColorDarkThemeColor,
-                          textColor: kWhite,
-                          fontSize: 16.0);
-                    }
-                  }
-                  return {
-                    'success': 'no',
-                    'message':
-                        'Request failed with status: ${jsonResponse.statusCode}.'
-                  };
-                } catch (e) {
-                  final errorMessage = DioExceptions.fromDioError(e).toString();
-                  print(errorMessage);
-                  print(e);
+                  Fluttertoast.showToast(
+                      msg: "ptani kya line hai ye",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 5,
+                      backgroundColor: kContentColorDarkThemeColor,
+                      textColor: kWhite,
+                      fontSize: 16.0);
                 }
-              } else {
-                // User canceled the picker
-                Fluttertoast.showToast(
-                    msg: "$msg",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 7,
-                    backgroundColor: kContentColorDarkThemeColor,
-                    textColor: kWhite,
-                    fontSize: 16.0);
               }
-            },
-            shape: CircleBorder(),
-            padding: const EdgeInsets.all(18.0),
-            child: Icon(Icons.upload_file, color: Colors.white),
-          ),
-          RawMaterialButton(
-            fillColor: Colors.blueAccent,
-            onPressed: () {},
-            shape: CircleBorder(),
-            padding: const EdgeInsets.all(18.0),
-            child: Icon(Icons.share, color: Colors.white),
-          ),
-        ],
+              return {
+                'success': 'no',
+                'message':
+                    'Request failed with status: ${jsonResponse.statusCode}.'
+              };
+            } catch (e) {
+              final errorMessage = DioExceptions.fromDioError(e).toString();
+              print(errorMessage);
+              print(e);
+            }
+          } else {
+            // User canceled the picker
+            Fluttertoast.showToast(
+                msg: "$msg",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 7,
+                backgroundColor: kContentColorDarkThemeColor,
+                textColor: kWhite,
+                fontSize: 16.0);
+          }
+        },
+        shape: CircleBorder(),
+        padding: const EdgeInsets.all(20.0),
+        child: Icon(Icons.upload_file, color: Colors.white, size: 25),
       ),
     );
+    //       RawMaterialButton(
+    //         fillColor: Colors.blueAccent,
+    //         onPressed: () {},
+    //         shape: CircleBorder(),
+    //         padding: const EdgeInsets.all(18.0),
+    //         child: Icon(Icons.share, color: Colors.white),
+    //       ),
+    //     ],
+    //   ),
   }
 }
 
