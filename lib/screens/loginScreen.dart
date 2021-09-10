@@ -12,6 +12,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:storage_cloud/widgets/size_config.dart';
 
+import 'create-new-account.dart';
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -309,7 +311,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.w700),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/CreateNewAccount');
+                        //Navigator.pushNamed(context, '/CreateNewAccount');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  CreateNewAccount()),
+                        );
                       },
                       child: const Text('Register',
                           style: TextStyle(
