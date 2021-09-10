@@ -253,10 +253,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                         var success = response["success"];
                                         print(
                                             "line 3=========================$msg\nsuccess is $success");
+                                        setState(() {
+                                          _login = false;
+                                        });
                                       }
                                     } else {
                                       var response = listResponse[0];
                                       var msg = response["message"];
+                                      setState(() {
+                                        _login = false;
+                                      });
                                       Fluttertoast.showToast(
                                         msg: msg,
                                         toastLength: Toast.LENGTH_SHORT,
