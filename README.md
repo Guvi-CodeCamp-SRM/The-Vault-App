@@ -16,6 +16,7 @@ It also has a favourites option thorugh which people can choose there favourite 
 
 ## APK-Link
 ### `link`
+- https://drive.google.com/file/d/154ATLhB33nphZi666X1MNtsAMOGljq7j/view?usp=sharing
 
 ## Tech-stack 🖥
 ### `Front-end`
