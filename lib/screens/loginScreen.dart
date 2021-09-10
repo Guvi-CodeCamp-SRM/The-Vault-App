@@ -3,7 +3,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:storage_cloud/models/user.dart';
-import 'package:storage_cloud/utilities/forgot-password.dart';
+//import 'package:storage_cloud/utilities/forgot-password.dart';
 import 'package:storage_cloud/screens/homeScreen.dart';
 import 'package:storage_cloud/utilities/background.dart';
 import 'package:storage_cloud/utilities/constants.dart';
@@ -76,25 +76,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Center(
                     child: RichText(
                       text: TextSpan(
-                          text: 'STORA',
+                          text: 'The Va',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 9 * SizeConfig.textMultiplier,
+                              color: Colors.grey[500],
+                              fontSize: 9.5 * SizeConfig.textMultiplier,
                               fontFamily: 'Satisfy',
-                              fontWeight: FontWeight.w400),
+                              fontWeight: FontWeight.w500),
                           children: [
                             TextSpan(
-                              text: "G",
+                              text: "u",
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 9 * SizeConfig.textMultiplier,
-                              ),
+                                color: Colors.grey[500],
+                                fontSize: 9.5 * SizeConfig.textMultiplier,
+                              ),  
                             ),
                             TextSpan(
-                              text: "E",
+                              text: "lt",
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 9 * SizeConfig.textMultiplier,
+                                color: Colors.grey[500],
+                                fontSize: 9.5 * SizeConfig.textMultiplier,
                               ),
                             ),
                           ]),
@@ -110,7 +110,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         InputTile(
-                          startIcon: Icon(Icons.email, color: kPrimaryColor,size: 6 * SizeConfig.imageSizeMultiplier),
+                          startIcon: Icon(Icons.email,
+                              color: kPrimaryColor,
+                              size: 6 * SizeConfig.imageSizeMultiplier),
                           keyboard: TextInputType.emailAddress,
                           setValidator: (value) {
                             if (value.isEmpty) {
@@ -130,7 +132,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 20.0),
                         InputTile(
-                          startIcon: Icon(Icons.lock, color: kPrimaryColor,size: 6 * SizeConfig.imageSizeMultiplier),
+                          startIcon: Icon(Icons.lock,
+                              color: kPrimaryColor,
+                              size: 6 * SizeConfig.imageSizeMultiplier),
                           inputType: "Enter Password",
                           callBack: (value) {
                             password = value;
@@ -150,37 +154,40 @@ class _LoginScreenState extends State<LoginScreen> {
                           isObscure: _isObscure,
                           tileIcon: IconButton(
                               icon: Icon(
-                                  _isObscure
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                  color: kPrimaryColor,size:6 * SizeConfig.imageSizeMultiplier,),
+                                _isObscure
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: kPrimaryColor,
+                                size: 6 * SizeConfig.imageSizeMultiplier,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   _isObscure = !_isObscure;
                                 });
                               }),
                         ),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            textStyle: TextStyle(
-                                fontSize: 1.9 * SizeConfig.textMultiplier),
-                          ),
-                          onPressed: () {
-                            showModalBottomSheet<void>(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return SingleChildScrollView(
-                                    child: ForgotPassword());
-                              },
-                            );
-                          },
-                          child: const Text('Forgot Password?',
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  fontWeight: FontWeight.w700,
-                                  color: kPrimaryColor)),
-                        ),
+                        SizedBox(height: 20),
+                        // TextButton(
+                        //   style: TextButton.styleFrom(
+                        //     textStyle: TextStyle(
+                        //         fontSize: 1.9 * SizeConfig.textMultiplier),
+                        //   ),
+                        //   onPressed: () {
+                        //     showModalBottomSheet<void>(
+                        //       context: context,
+                        //       isScrollControlled: true,
+                        //       builder: (BuildContext context) {
+                        //         return SingleChildScrollView(
+                        //             child: ForgotPassword());
+                        //       },
+                        //     );
+                        //   },
+                        //   child: const Text('Forgot Password?',
+                        //       style: TextStyle(
+                        //           decoration: TextDecoration.underline,
+                        //           fontWeight: FontWeight.w700,
+                        //           color: kPrimaryColor)),
+                        // ),
                         Row(
                           children: [
                             Expanded(
@@ -226,9 +233,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         print(
                                             "line 2 ======================$msg");
                                         log(logInCookie, name: "loginc");
-                                        print("login =================");
+                                        //print("login =================");
                                         print(logInCookie);
-                                        print("login =================");
+                                        //print("login =================");
                                         setState(() {
                                           _login = false;
                                         });
@@ -300,7 +307,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 5,
                 ),
               ],
             ),

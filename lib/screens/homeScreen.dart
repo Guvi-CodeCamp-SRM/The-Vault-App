@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   : Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 50, 0),
                     child: Text(
-                        'My Drive',
+                        'The Vault',
                         style: TextStyle(
                             fontSize: 3.6 * SizeConfig.textMultiplier,
                             //color: Colors.grey.shade100,

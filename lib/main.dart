@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:storage_cloud/utilities/constants.dart';
 import 'screens/create-new-account.dart';
 import 'screens/loginScreen.dart';
-import 'utilities/forgot-password.dart';
+//import 'utilities/forgot-password.dart';
 import 'widgets/size_config.dart';
 
 void main() {
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           builder: (context, orientation) {
             SizeConfig().init(constraints);
             return MaterialApp(
-              title: 'STORAGE',
+              title: 'The Vault',
               theme: ThemeData(
                 popupMenuTheme: PopupMenuThemeData(
                   color: Colors.grey[100],
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
               initialRoute: '/',
               routes: {
                 '/': (context) => LoginScreen(),
-                '/ForgotPassword': (context) => ForgotPassword(),
+                //'/ForgotPassword': (context) => ForgotPassword(),
                 '/CreateNewAccount': (context) => CreateNewAccount(),
               },
               debugShowCheckedModeBanner: false,
