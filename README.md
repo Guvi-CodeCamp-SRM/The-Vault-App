@@ -15,6 +15,7 @@ It also has a favourites option thorugh which people can choose there favourite 
 
 
 ## APK-Link
+### `link`
 
 ## Tech-stack 🖥
 ### `Front-end`
