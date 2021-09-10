@@ -198,7 +198,7 @@ class _FolderState extends State<Folder> {
   @override
   Widget build(BuildContext context) {
     smallView =
-        Icon(Icons.folder, size: ((MediaQuery.of(context).size.width) / 4));
+        Icon(Icons.folder, size: ((MediaQuery.of(context).size.width) / 3.9));
     return Center(
       child: Card(
         color: Colors.grey.shade200,
@@ -399,7 +399,7 @@ class _FolderState extends State<Folder> {
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.03),
               ),
-              // Container(height: 50),
+              //Container(height: 20),
             ],
           ),
         ),
