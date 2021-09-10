@@ -1,12 +1,12 @@
-<h1 style="text-align:center; font-size:3rem">Storage-App<h1>
+##The-Vault-App
 
 ## About the Project 🧾
 
-My Drive is an application which is made exclusively to store files for free and can access them easily whenever needed..
+Vault is an application which is made exclusively to store files for free and can access them easily whenever needed..
 
 ## Aim of the Project 🎯
   
-My Drive is a app similar to google drive which gives you the storage of 516 MB .Here you can store files like images and pdf as in for now.You can STORE and VIEW your files here .
+Vault is a app similar to google drive which gives you the storage of 516 MB .Here you can store files like images and pdf as in for now.You can STORE and VIEW your files here .
 Currently the app supports upload files feature with preview of documents and images and also download feature of all files, also search option  for easy navigation to files will be added in future.
   
 It also has a favourites option thorugh which people can choose there favourite files can view them in a different page. There are other featurees like updating profile , deleting profile, 
