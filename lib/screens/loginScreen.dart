@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(
                                 color: Colors.grey[500],
                                 fontSize: 9.5 * SizeConfig.textMultiplier,
-                              ),  
+                              ),
                             ),
                             TextSpan(
                               text: "lt",
@@ -215,7 +215,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     User user = User.a(
                                         email: email, password: password);
                                     var listResponse = await user.logInUser();
-                                    log(listResponse.toString(), name: "list");
+                                    //log(listResponse.toString(), name: "list");
+                                    setState(() {
+                                      _login = false;
+                                    });
                                     if (listResponse.length != 1) {
                                       var response = listResponse[1];
 
@@ -262,8 +265,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       var response = listResponse[0];
                                       var msg = response["message"];
                                       setState(() {
-                                          _login = false;
-                                        });
+                                        _login = false;
+                                      });
                                       Fluttertoast.showToast(
                                         msg: msg,
                                         toastLength: Toast.LENGTH_SHORT,
@@ -276,6 +279,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                             2.2 * SizeConfig.textMultiplier,
                                       );
                                     }
+                                    setState(() {
+                                      _login = false;
+                                    });
                                   }
                                 },
                               ),
